@@ -1,4 +1,4 @@
-import { neon } from '@neondatabase/serverless';
+
 import express from 'express';
 import { engine } from 'express-handlebars';
 import dotenv from 'dotenv';
@@ -6,10 +6,16 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt';
 import pkg from 'jsonwebtoken';
+import db from './database.js';
+
+//BASE DE DATOS
+
+
+
 
 dotenv.config();
 
-const sql = neon(process.env.DATABASE_URL)
+
 export const CLAVE_SECRETA = process.env.CLAVE_SECRETA;
 export const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME;
 const { verify } = pkg;
@@ -35,7 +41,7 @@ app.use('/files', express.static('public'));
 
 // Admin - Admin_Perfiles - Admin_Productos
 app.get('/', (req, res) => {
-  res.render('Admin', { isAdmin: true, userName: req.user.name });
+  res.render('Admin');
 });
 
 app.get('/Adminprod', async (req, res) => {
@@ -50,6 +56,40 @@ app.get('/Adminprod', async (req, res) => {
   }
 });
 
+// query para ingresar clientes nuevos
+app.post('/clientes', (req, res) => {
+  const { nombre, precio, stock } = req.body;
+  db.run('INSERT INTO Clientes (ID_Cliente, Nombre, Telefono, Direccion, Fecha_Registro) VALUES (?, ?, ?, ?, ?)',
+      [ID_Cliente, Nombre, Telefono, Direccion, Fecha_Registro],
+      function (err) {
+          if (err) {
+              res.status(500).json({ error: err.message });
+          } else {
+              res.status(201).json({ id: this.lastID });
+          }
+      }
+  );
+});
+//muestra todos los clientes
+app.get('/clientes', (req, res) => {
+  db.all('SELECT * FROM Clientes', [], (err, rows) => {
+      if (err) {
+          res.status(500).json({ error: err.message });
+      } else {
+          res.json({ Clientes: rows });
+      }
+  });
+});
+
+app.get('/clientes', (req, res) => {
+  db.all('SELECT * FROM Clientes', [], (err, rows) => {
+      if (err) {
+          res.status(500).send('Error en la base de datos');
+      } else {
+          res.render('Clientes', { Clientes: rows });
+      }
+  });
+});
 
 app.get('/Adminperfiles', (req, res) => {
   res.render('Adminperfiles');
