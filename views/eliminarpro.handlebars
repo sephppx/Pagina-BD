@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/files/css/eliminarpro.css">
+    </head>
+    <body>
+
+        <section>
+            <div class="nav">
+                <ul>
+                    <li>
+                        <a href="/">
+                            <span class="icono"><ion-icon name="aperture-outline"></ion-icon></span>
+                            <span class="titulo">Aura's</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/">
+                            <span class="icono"><ion-icon name="home-outline"></ion-icon></span>
+                            <span class="titulo">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Adminperfiles">
+                            <span class="icono"><ion-icon name="people-outline"></ion-icon></span>
+                            <span class="titulo">Perfiles</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Adminprod">
+                            <span class="icono"><ion-icon name="cart-outline"></ion-icon></span>
+                            <span class="titulo">Productos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icono"><ion-icon name="information-circle-outline"></ion-icon></span>
+                            <span class="titulo">Ayuda</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icono"><ion-icon name="settings-outline"></ion-icon></span>
+                            <span class="titulo">Ajustes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/login">
+                            <span class="icono"><ion-icon name="log-out-outline"></ion-icon></span>
+                            <span class="titulo">Cerrar Sesion</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="container">
+                <div class="topbar">
+                    <div class="toggle">
+                        <ion-icon name="menu"></ion-icon>
+                    </div> 
+                
+                    <div class="buscar">
+                        <label>
+                            <input type="text" placeholder="Buscar..." name="" id="">
+                            <ion-icon name="search"></ion-icon>
+                        </label>
+                    </div>
+                    <div class="perfil-usuario">
+                        <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
+                    </div>
+                </div>
+
+                <div class="detalles">
+                    <form action="/eliminarpro" method="POST">
+                        <div class="ordenes-recientes">
+                            <div class="header">
+                                <h2>Eliminar Producto</h2>
+                            </div>
+
+                            <div class="botones">
+                                <h2>¿Desea eliminar el producto?</h2>
+                                <input type="hidden" name="producto_id" value="{{producto_id}}">
+                                <div class="botones-container">
+                                    <button type="submit" class="boton-si">Sí</button>
+                                    <a href="/Adminprod" class="boton-no">No</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>  
+            </div>    
+        </section>
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    </body>
+</html>
