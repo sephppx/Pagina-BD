@@ -24,7 +24,7 @@
                 <li>
                     <a href="/Adminperfiles">
                         <span class="icono"><ion-icon name="people-outline"></ion-icon></span>
-                        <span class="titulo">Perfiles</span>
+                        <span class="titulo">Clientes</span>
                     </a>
                 </li>
                 <li>
@@ -34,9 +34,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/consultas">
                         <span class="icono"><ion-icon name="information-circle-outline"></ion-icon></span>
-                        <span class="titulo">Ayuda</span>
+                        <span class="titulo">Consultas</span>
                     </a>
                 </li>
                 <li>
@@ -83,6 +83,8 @@
                             <th>Nombre</th>
                             <th>Stock</th>
                             <th>Precio</th>
+                            <th>Categoria</th>
+                            <th>Id Proveedor</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
                         </thead>
@@ -93,6 +95,8 @@
                                     <td>{{this.nombre}}</td>
                                     <td>{{this.stock}}</td>
                                     <td>${{this.precio}}</td>
+                                    <td>${{this.categoria}}</td>
+                                    <td>${{this.id_proveedor}}</td>
                                     <td><a href="/formularioedit?id={{this.id}}"><button class="estatus pendiente">Editar</button></a></td>
                                     <td><a href="/eliminarpro?id={{this.id}}"><button class="estatus devuelto">Eliminar</button></a></td>
                                 </tr>

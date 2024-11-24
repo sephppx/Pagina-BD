@@ -25,7 +25,7 @@
                     <li>
                         <a href="/Adminperfiles">
                             <span class="icono"><ion-icon name="people-outline"></ion-icon></span>
-                            <span class="titulo">Perfiles</span>
+                            <span class="titulo">Clientes</span>
                         </a>
                     </li>
                     <li>
@@ -35,9 +35,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/consultas">
                             <span class="icono"><ion-icon name="information-circle-outline"></ion-icon></span>
-                            <span class="titulo">Ayuda</span>
+                            <span class="titulo">Consultas</span>
                         </a>
                     </li>
                     <li>
@@ -93,8 +93,11 @@
                                     <input class="controls money-input" type="number" name="precio" id="precio_producto" value="{{producto.precio}}" min="1" placeholder="0" step="1" min="0">
                                 </div>
 
-                                <label for="imagen-url">Imagen URL</label>
-                                <input type="url" name="imagen_url" id="imagen-url_producto" value="{{producto.imagen_url}}" placeholder="Ingrese la URL de la imagen" required>
+                                <label for="categoria">Categoria</label>
+                                <input type="controls" type="text" name="categoria" id="categoria_producto" value="{{producto.categoria}}" placeholder="Ingrese la categoria" required>
+                                
+                                <label for="id_proveedor">Categoria</label>
+                                <input type="controls" type="text" name="id_proveedor" id="id_proveedor_producto" value="{{producto.id_proveedor}}" placeholder="Ingrese el id del proveedor" required>
 
                                 <label for="fecha">Editar</label>
                                 <input class="botons" type="submit" value="Modificar">

@@ -1,0 +1,427 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+:root{
+
+    --white: #fff6ff;
+    --purple: #2BE2BF; 
+    --dark-rose: #8bebd9;  
+    --black: #221824;  
+    --font: 'Raleway' , sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font);
+}
+
+body{
+    background: var(--black);
+    overflow-x: hidden;
+}
+
+section{
+    position: relative;
+    width: 100%;
+}
+
+/* NAVBAR */
+
+.nav{
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: var(--purple);
+    border-left: 10px solid var(--purple);
+    overflow: hidden;
+    transition: 0.4s;
+}
+
+.nav ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.nav li {
+    position: relative;
+    width: 200%;
+    list-style: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.nav ul li:hover {
+    background: var(--white);
+
+}
+
+.nav ul li:nth-child(1){
+    margin-bottom: 40px;
+    pointer-events: none;
+}
+
+.nav ul li a {
+    position: relative;
+    display: flex;
+    width: 100%;
+    color: var(--black);
+    text-decoration: none;
+}
+
+.nav ul li a:hover {
+    color: var(--purple);
+}
+
+.nav ul li a .icono {
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 75px;
+    text-align: center;
+}
+
+.nav ul li a .icono ion-icon {
+    font-size: 1.75em;
+}
+
+.nav ul li a .titulo {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
+}
+
+/* Dashboard */
+
+.container  {
+    position: absolute;
+    width: calc(100% - 300px);
+    left: 300px;
+    min-height: 100vh;
+    background: var(--white);
+    transition: 0.4s;
+}
+
+/* Topbar */
+
+.container .topbar {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.container .topbar .toggle {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    cursor: pointer;
+}
+
+.container .topbar .buscar {
+    position: relative;
+    width: 400px;
+    margin: 0 10px;
+}
+
+.container .topbar .buscar label{
+    position: relative;
+    width: 100%;
+}
+
+.container .topbar .buscar label input {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    font-size: 1em;
+    outline: none;
+    border: 1px solid var(--dark-rose);
+}
+
+.container .topbar .buscar label ion-icon {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 1.2em;
+}
+
+.container .topbar .perfil-usuario {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.container .topbar .perfil-usuario img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Detalle */
+
+.detalles {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 2fr 0fr;
+    grid-gap: 30px;
+    margin-top: 10px;
+}
+
+.detalles .ordenes-recientes {
+    position: relative;
+    display: grid;  
+    min-height: 500px;
+    background: var(--white);
+    padding: 20px;
+    box-shadow:  0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.header h2 {
+    font-weight: 700;
+    color: var(--purple);
+}
+
+.boton {
+    position: relative;
+    padding: 5px 10px;
+    background: var(--purple);
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 5px;
+}
+
+.consultas {
+    display: flex;
+    flex-direction: column; /* Apilar elementos verticalmente */
+    gap: 20px; /* Espaciado entre barra, botón y resultados */
+}
+
+.consultas h3 {
+    text-align: center; /* Centrar texto horizontalmente */
+    margin: 0 auto 20px; /* Margen automático para centrar y espaciado inferior */
+    font-size: 1.5rem; /* Ajustar tamaño si es necesario */
+    color: var(--black); /* Usar el color definido para consistencia */
+}
+
+.consulta-barra {
+    text-align: center;
+    margin-bottom: 20px; /* Añadir espacio con el siguiente contenido */
+}
+
+.consulta-barra label {
+    display: block;
+    font-size: 1rem;
+    color: var(--black);
+    margin-bottom: 8px;
+}
+
+.consulta-barra select {
+    width: 100%; /* Ajustar al tamaño completo del contenedor */
+    max-width: 500px; /* Tamaño máximo de la barra */
+    padding: 10px; /* Espaciado interno para agrandar la barra */
+    font-size: 1rem; /* Ajustar tamaño de fuente */
+    border: 1px solid var(--dark-rose);
+    border-radius: 12px; /* Bordes redondeados */
+    background-color: var(--white); /* Fondo blanco */
+    color: var(--black); /* Texto oscuro */
+    transition: all 0.3s ease;
+}
+
+.consulta-barra select:focus {
+    border-color: var(--purple);
+    outline: none;
+    box-shadow: 0 0 8px var(--purple);
+}
+
+.botones-container {
+    display: flex; /* Activar flexbox */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente (si es necesario) */
+    margin-top: 20px; /* Separar del contenido superior, opcional */
+}
+.boton-si {
+    width: 100%; /* Ocupar todo el ancho disponible */
+    max-width: 300px; /* Tamaño máximo */
+    text-align: center;
+    padding: 12px 20px; /* Mayor espacio interno */
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px; /* Bordes redondeados */
+    color: var(--black);
+    background-color: var(--purple);
+    transition: background-color 0.3s ease;
+}
+
+.boton-si:hover {
+    background-color: #28c2a4; /* Cambio sutil en hover */
+}
+
+.resultado {
+    margin-top: 40px; /* Mayor espacio respecto a la barra */
+    text-align: center;
+}
+
+.resultado h4 {
+    font-size: 1.2rem;
+    color: var(--black);
+    margin-bottom: 10px;
+}
+
+#resultado-consulta {
+    padding: 20px;
+    border: 1px solid var(--black);
+    border-radius: 12px; /* Bordes redondeados */
+    background-color: var(--white); /* Fondo claro */
+    color: var(--black); /* Texto oscuro */
+    text-align: left; /* Texto alineado a la izquierda */
+    max-width: 700px;
+    margin: 0 auto; /* Centrar horizontalmente */
+    min-height: 100px; /* Espacio mínimo para el contenido */
+    display: flex;
+    align-items: center; /* Centrar contenido verticalmente */
+    justify-content: center; /* Centrar contenido horizontalmente */
+}
+
+@media only screen and (max-width: 1200px) {
+    .detalles {
+        grid-template-columns: 1fr; 
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .nav{
+        left: -300px;
+    }
+
+    .nav.active {
+        left: 0;
+        width: 300px;
+    }
+
+    .container{
+        width: 100%;
+        left: 0;
+    }
+
+    .container.active {
+        left: 300px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .detalles { 
+        grid-template-columns: 1fr 0fr;
+    }
+
+    .ordenes-recientes {
+        overflow: auto;
+    }
+
+    .estatus.en-progeso{
+        white-space: nowrap;
+    }
+
+    .detalles {
+        grid-template-columns: 1fr; 
+        grid-gap: 15px; 
+        padding: 15px;
+        margin-top: 5px;
+    }
+
+    .detalles .ordenes-recientes {
+        overflow-x: auto; 
+        min-width: 100%;
+    }
+    
+    .boton-si, .boton-no {
+        padding: 10px; /* Ajustar padding para botones */
+        font-size: 0.85rem; /* Reducir el tamaño de la fuente en botones */
+    }
+}
+
+@media only screen and (max-width: 468px) {
+    .nav {
+        width: 100%;
+        left: -100%;
+        z-index: 1000;
+    }
+
+    .nav.active {
+        width: 100%;
+        left: 0;
+    }
+
+    .container.active .toggle{
+        color: var(--white);
+    }
+
+    .toggle {
+        position: fixed;
+        left: initial;
+        right: 0;
+        z-index: 10000;
+    }
+
+    .cards {
+        grid-template-columns: repeat(1,1fr);
+    }
+
+    .perfil-usuario {
+        min-width: 40px;
+    }
+
+    .header h2 {
+        font-size: 1.2em;
+    }
+
+    .detalles {
+        grid-template-columns: 1fr; 
+        padding: 10px;
+        grid-gap: 10px; 
+    }
+
+    .detalles .ordenes-recientes {
+        width: 100%;
+        padding: 10px;
+        overflow-x: auto;
+    }
+
+    .detalles .ordenes-recientes table {
+        width: 100%; 
+    }
+
+    .botones-container {
+        flex-direction: column; /* Colocar botones uno debajo del otro */
+        gap: 10px; /* Espaciado vertical */
+    }
+}

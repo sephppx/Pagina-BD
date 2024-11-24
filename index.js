@@ -122,6 +122,14 @@ app.get('/formulariopro', async (req, res) => {
   res.render('formulariopro');
 });
 
+app.get('/formulariocliente', async (req, res) => {
+  res.render('formulariocliente');
+});
+
+app.get('/consultas', async (req, res) => {
+  res.render('consultas');
+});
+
 // Eliminar Producto
 app.get('/eliminarpro', async (req, res) => {
   const id = req.query.id; // Obtener el ID del producto de la URL
