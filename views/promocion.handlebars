@@ -79,20 +79,23 @@
                     </div>
                     <table>
                         <thead>
-                            <th>Id Cliente</th>
-                            <th>Nombre</th>
-                            <th>Telefono</th>
-                            <th>Direccion</th>
-                            <th>Fecha de Registro</th>
+                            <th>ID Promocion</th>
+                            <th>Descripcion</th>
+                            <th>Fecha inicio</th>
+                            <th>Fecha fin</th>
+                            <th>Descuento</th>
+                            
+                            
                         </thead>
                         <tbody>
                             {{#each productos}}
                                 <tr>
-                                    <td>{{this.ID_Cliente}}</td>
-                                    <td>{{this.Nombre}}</td>
-                                    <td>{{this.Telefono}}</td>
-                                    <td>{{this.Direccion}}</td>
-                                    <td>{{this.Fecha_Registro}}</td>
+                                    <td>{{this.ID_Promocion}}</td>
+                                    <td>{{this.Descripcion}}</td>
+                                    <td>{{this.Fecha_Inicio}}</td>
+                                    <td>{{this.Fecha_Fin}}</td>
+                                    <td>{{this.Descuento}}%</td>
+                                    
                                 </tr>
                             {{else}}
                                 <tr>

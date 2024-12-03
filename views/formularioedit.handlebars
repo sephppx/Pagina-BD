@@ -78,31 +78,28 @@
                             <a href="/Adminprod" class="boton">Atras</a>
                         </div>
                         <section class="form-product">
-                            <form action="/formularioedit/producto/{{producto.id}}" method="POST">
-                                {{!-- <label for="id_producto">ID del Producto</label> --}}
-                                {{!-- <input class="controls" type="text" name="id" id="id_producto" value="{{this.id}}" placeholder="Ingrese ID del Producto" readonly> --}}
+                            <form action="/formularioedit/producto/{{producto.ID_Producto}}" method="POST">
+                                <label for="Nombre_Producto">Nombre del Producto</label>
+                                <input class="controls" type="text" name="Nombre_Producto" id="Nombre_Producto" value="{{producto.Nombre_Producto}}" required>
 
-                                <label for="nombre_producto">Nombre del Producto</label>
-                                <input class="controls" type="text" name="nombre" id="nombre_producto" value="{{producto.nombre}}" placeholder="Ingrese Nombre del Producto">
+                                <label for="Categoria">Categoría</label>
+                                <input class="controls" type="text" name="Categoria" id="Categoria" value="{{producto.Categoria}}" required>
 
-                                <label for="stock">Stock</label>
-                                <input class="controls" type="number" name="stock" id="stock_producto" value="{{producto.stock}}" min="1" placeholder="Ingrese el Stock">
+                                <label for="Precio">Precio</label>
+                                <input class="controls" type="number" name="Precio" id="Precio" value="{{producto.Precio}}" step="0.01" required>
 
-                                <label for="precio">Precio (CLP)</label>
-                                <div class="input-container">
-                                    <input class="controls money-input" type="number" name="precio" id="precio_producto" value="{{producto.precio}}" min="1" placeholder="0" step="1" min="0">
-                                </div>
+                                <label for="Stock">Stock</label>
+                                <input class="controls" type="number" name="Stock" id="Stock" value="{{producto.Stock}}" required>
 
-                                <label for="categoria">Categoria</label>
-                                <input type="controls" type="text" name="categoria" id="categoria_producto" value="{{producto.categoria}}" placeholder="Ingrese la categoria" required>
-                                
-                                <label for="id_proveedor">Categoria</label>
-                                <input type="controls" type="text" name="id_proveedor" id="id_proveedor_producto" value="{{producto.id_proveedor}}" placeholder="Ingrese el id del proveedor" required>
+                                <label for="Descripcion">Descripción</label>
+                                <input class="controls" name="Descripcion" id="Descripcion" value="{{producto.Descripcion}}"required>
+
+                                <label for="ID_Proveedor">ID del Proveedor</label>
+                                <input class="controls" type="number" name="ID_Proveedor" id="ID_Proveedor" value="{{producto.ID_Proveedor}}" readonly>
 
                                 <label for="fecha">Editar</label>
                                 <input class="botons" type="submit" value="Modificar">
-
-                            </form>
+                                </form>
                         </section>                        
                     </div>
                 </div>  

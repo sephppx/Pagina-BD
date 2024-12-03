@@ -79,24 +79,24 @@
                     </div>
                     <table>
                         <thead>
-                            <th>Id Cliente</th>
-                            <th>Nombre</th>
-                            <th>Telefono</th>
-                            <th>Direccion</th>
-                            <th>Fecha de Registro</th>
+                            <th>ID Orden</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>ID Proveedor</th>
+                            
                         </thead>
                         <tbody>
                             {{#each productos}}
                                 <tr>
-                                    <td>{{this.ID_Cliente}}</td>
-                                    <td>{{this.Nombre}}</td>
-                                    <td>{{this.Telefono}}</td>
-                                    <td>{{this.Direccion}}</td>
-                                    <td>{{this.Fecha_Registro}}</td>
+                                    <td>{{this.ID_Orden}}</td>
+                                    <td>{{this.Fecha}}</td>
+                                    <td>${{this.Total}}</td>
+                                    <td>{{this.ID_Proveedor}}</td>
+                                    
                                 </tr>
                             {{else}}
                                 <tr>
-                                    <td colspan="5">No hay clientes disponibles.</td>
+                                    <td colspan="4">No hay clientes disponibles.</td>
                                 </tr>
                             {{/each}}
                         </tbody>

@@ -76,33 +76,34 @@
                     <div class="header">
                         <h2>Productos</h2>
                         <a href="/formulariopro" class="boton">Añadir Producto</a>
+                        
                     </div>
                     <table>
                         <thead>
-                            <th>Código</th>
+                            <th>ID Producto</th>
                             <th>Nombre</th>
-                            <th>Stock</th>
-                            <th>Precio</th>
                             <th>Categoria</th>
-                            <th>Id Proveedor</th>
-                            <th>Editar</th>
-                            <th>Eliminar</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Descripcion</th>
+                            <th>ID Proveedor</th>
                         </thead>
                         <tbody>
                             {{#each productos}}
                                 <tr>
-                                    <td>#{{this.id}}</td>
-                                    <td>{{this.nombre}}</td>
-                                    <td>{{this.stock}}</td>
-                                    <td>${{this.precio}}</td>
-                                    <td>${{this.categoria}}</td>
-                                    <td>${{this.id_proveedor}}</td>
-                                    <td><a href="/formularioedit?id={{this.id}}"><button class="estatus pendiente">Editar</button></a></td>
-                                    <td><a href="/eliminarpro?id={{this.id}}"><button class="estatus devuelto">Eliminar</button></a></td>
+                                    <td>{{this.ID_Producto}}</td>
+                                    <td>{{this.Nombre_Producto}}</td>
+                                    <td>{{this.Categoria}}</td>
+                                    <td>${{this.Precio}}</td>
+                                    <td>{{this.Stock}}</td>
+                                    <td>{{this.Descripcion}}</td>
+                                    <td>{{this.ID_Proveedor}}</td>
+                                    <td><a href="/formularioedit?ID_Producto={{ID_Producto}}"><button class="estatus pendiente">Editar</button></a></td>
+                                    <td><a href="/eliminarpro?ID_Producto={{ID_Producto}}"><button class="estatus devuelto">Eliminar</button></a></td>
                                 </tr>
                             {{else}}
                                 <tr>
-                                    <td colspan="6">No hay productos disponibles.</td>
+                                    <td colspan="7">No hay clientes disponibles.</td>
                                 </tr>
                             {{/each}}
                         </tbody>
