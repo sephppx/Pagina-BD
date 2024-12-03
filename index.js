@@ -310,6 +310,13 @@ app.get('/clientes', (req, res) => {
   });
 });
 
+app.get('/venta', async (req, res) => {
+  res.render('venta');
+});
+
+app.get('/orden', async (req, res) => {
+  res.render('orden');
+});
 
 
 app.get('/Adminperfiles', (req, res) => {
@@ -550,5 +557,107 @@ app.post('/Adminprod', async (req, res) => {
     res.status(500).send('Error al eliminar el producto');
   }
 });
+
+// Ruta para manejar las consultas
+app.post('/consultas', (req, res) => {
+  const consultaSeleccionada = req.body.consulta;
+
+  // Mapear opciones a consultas SQL
+  const consultas = {
+    consulta1: `
+      SELECT p.Nombre_Producto, SUM(vp.Cantidad) AS Total_Vendido
+      FROM Venta_Producto vp
+      JOIN Productos p ON vp.ID_Producto = p.ID_Producto
+      JOIN Venta v ON vp.ID_Venta = v.ID_Venta
+      WHERE v.Fecha >= DATE('now', '-1 month')
+      GROUP BY p.Nombre_Producto
+      ORDER BY Total_Vendido DESC;
+    `,
+    consulta2: `
+      SELECT c.Nombre, v.ID_Venta, v.Total
+      FROM Venta v
+      JOIN Clientes c ON v.ID_Cliente = c.ID_Cliente
+      WHERE v.Total > 35.00;
+    `,
+    consulta3: `
+      SELECT p.Nombre_Proveedor, AVG(JULIANDAY(oc.Fecha_Entrega) - JULIANDAY(oc.Fecha)) AS Promedio_Dias_Entrega
+      FROM Orden_Compra oc
+      JOIN Proveedor p ON oc.ID_Proveedor = p.ID_Proveedor
+      WHERE oc.Fecha_Entrega IS NOT NULL
+      GROUP BY p.Nombre_Proveedor;
+    `,
+    consulta4: `
+      SELECT oc.ID_Orden, p.Nombre_Proveedor, oc.Fecha, oc.Total
+      FROM Orden_Compra oc
+      JOIN Proveedor p ON oc.ID_Proveedor = p.ID_Proveedor
+      WHERE oc.Estado = 'Pendiente';
+    `,
+    consulta5: `
+      SELECT Metodo_Pago, COUNT(*) AS Cantidad_Usos
+      FROM Venta
+      GROUP BY Metodo_Pago
+      ORDER BY Cantidad_Usos DESC;
+    `,
+    consulta6: `
+      SELECT p.Nombre_Proveedor, COUNT(oc.ID_Orden) AS Entregas_Tardias
+      FROM Orden_Compra oc
+      JOIN Proveedor p ON oc.ID_Proveedor = p.ID_Proveedor
+      WHERE oc.Fecha_Entrega > oc.Fecha
+        AND oc.Fecha >= DATE('now', '-1 year')
+      GROUP BY p.Nombre_Proveedor;
+    `,
+    consulta7: `
+      SELECT v.ID_Venta, v.Fecha, v.Total, vp.ID_Producto, p.Nombre_Producto, vp.Cantidad
+      FROM Venta v
+      JOIN Venta_Producto vp ON v.ID_Venta = vp.ID_Venta
+      JOIN Productos p ON vp.ID_Producto = p.ID_Producto
+      WHERE v.ID_Cliente = 2
+      ORDER BY v.Fecha DESC;
+    `,
+    consulta8: `
+      SELECT pr.Descripcion, COUNT(vp.ID_Producto) AS Productos_Vendidos
+      FROM Producto_Promocion pp
+      JOIN Promocion pr ON pp.ID_Promocion = pr.ID_Promocion
+      JOIN Venta_Producto vp ON pp.ID_Producto = vp.ID_Producto
+      JOIN Venta v ON vp.ID_Venta = v.ID_Venta
+      WHERE pr.Fecha_Inicio >= DATE('now', '-3 months')
+        AND v.Fecha >= pr.Fecha_Inicio
+        AND v.Fecha <= pr.Fecha_Fin
+      GROUP BY pr.Descripcion
+      ORDER BY Productos_Vendidos DESC;
+    `,
+    consulta9: `
+      SELECT p.Nombre_Proveedor, AVG(JULIANDAY(oc.Fecha_Entrega) - JULIANDAY(oc.Fecha)) AS Promedio_Dias_Entrega
+      FROM Orden_Compra oc
+      JOIN Proveedor p ON oc.ID_Proveedor = p.ID_Proveedor
+      WHERE oc.Fecha_Entrega IS NOT NULL
+      GROUP BY p.Nombre_Proveedor;
+    `,
+    consulta10: `
+      SELECT p.Nombre_Proveedor, AVG(JULIANDAY(oc.Fecha_Entrega) - JULIANDAY(oc.Fecha)) AS Promedio_Dias_Entrega
+      FROM Orden_Compra oc
+      JOIN Proveedor p ON oc.ID_Proveedor = p.ID_Proveedor
+      WHERE oc.Fecha_Entrega IS NOT NULL
+      GROUP BY p.Nombre_Proveedor;
+    `,
+  };
+
+  const query = consultas[consultaSeleccionada];
+
+  if (!query) {
+    return res.status(400).send('Consulta no válida.');
+  }
+
+  // Ejecutar la consulta en SQLite
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    // Renderizar la vista con los resultados
+    res.render('consultas', { resultados: rows });
+  });
+});
+
 
 app.listen(3001, () => console.log('Servidor encendido en el puerto 3000'));

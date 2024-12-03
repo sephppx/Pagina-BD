@@ -9,6 +9,7 @@
 
         <section>
             <div class="nav">
+
                 <ul>
                     <li>
                         <a href="/">
@@ -35,9 +36,21 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/consultas">
                             <span class="icono"><ion-icon name="information-circle-outline"></ion-icon></span>
                             <span class="titulo">Consultas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/orden">
+                            <span class="icono"><ion-icon name="clipboard-outline"></ion-icon></span>
+                            <span class="titulo">Ordenes Compra</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/venta">
+                            <span class="icono"><ion-icon name="bag-handle-outline"></ion-icon></span>
+                            <span class="titulo">Ventas</span>
                         </a>
                     </li>
                     <li>
@@ -47,9 +60,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/login">
+                        <a href="/logout">
                             <span class="icono"><ion-icon name="log-out-outline"></ion-icon></span>
-                            <span class="titulo">Cerrar Sesión</span>
+                            <span class="titulo">Cerrar Sesion</span>
                         </a>
                     </li>
                 </ul>
@@ -73,15 +86,14 @@
                 </div>
 
                 <div class="detalles">
-                    <form action="/eliminarpro" method="POST">
                         <div class="ordenes-recientes">
                             <div class="header">
                                 <h2>Consultas</h2>
                             </div>
 
                             <div class="consultas">
-                                <h3>Consultas</h3>
-                                <!-- Barra de opciones de consultas -->
+                                <form id="formulario-consulta" action="/consultas" method="POST">
+                                    <h3>Consultas</h3>
                                 <div class="consulta-barra">
                                     <select id="consulta">
                                         <option value="consulta1">¿Cuáles son los productos más vendidos en el último mes?</option>
@@ -99,21 +111,26 @@
 
                                 <!-- Botón para ejecutar la consulta -->
                                 <div class="botones-container">
-                                    <button type="button" class="boton-si" id="accionarConsulta">Consultar</button>
+                                    <button type="submit" class="boton-si" id="accionarConsulta">Consultar</button>
                                 </div>
-
+                                </form>
 
                                 <!-- Área para mostrar el resultado -->
                                 <div class="resultado">
-                                    <h4>Resultados:</h4>
-                                    <div id="resultado-consulta">
-                                        <!-- Aquí aparecerá el resultado -->
-                                    </div>
+                                    <div id="resultados">
+                                        {{#if resultados}}
+                                            <h4>Resultados:</h4>
+                                            <ul>
+                                            {{#each resultados}}
+                                                <li>{{this}}</li>
+                                            {{/each}}
+                                            </ul>
+                                        {{else}}
+                                            <p>No se han realizado consultas.</p>
+                                        {{/if}}
+                                    </div>   
                                 </div>
-                            </div>
                         </div>
-                    </form>
-
                 </div>  
             </div>    
         </section>
