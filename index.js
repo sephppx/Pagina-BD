@@ -337,6 +337,10 @@ app.get('/proveedor', (req, res) => {
   });
 });
 
+app.get('/formproveedor', async (req, res) => {
+  res.render('formproveedor');
+});
+
 app.get('/venta', (req, res) => {
   db.all('SELECT * FROM venta', [], (err, rows) => {
       if (err) {
@@ -470,6 +474,24 @@ app.get('/eliminarpro', (req, res) => {
   }
 
   res.render('eliminarpro', { producto_id: id }); // Pasa el ID del producto a la vista para confirmación
+});
+
+app.post('/formulariocliente', (req, res) => {
+  const { nombre, telefono, direccion, fecha_registro } = req.body;
+
+  if (!nombre || !telefono || !direccion || !fecha_registro) {
+      return res.status(400).send('Todos los campos son obligatorios.');
+  }
+
+  const sql = "INSERT INTO Clientes (Nombre, Telefono, Direccion, Fecha_Registro) VALUES (?, ?, ?, ?)";
+
+  db.run(sql, [nombre, telefono, direccion, fecha_registro], function (err) {
+      if (err) {
+          console.error(err.message);
+          return res.status(500).send('Error al agregar el cliente.');
+      }
+      res.redirect('/Adminperfiles');
+  });
 });
 
 app.post('/formulariopro', (req, res) => {
@@ -648,6 +670,24 @@ app.post('/formdevolucion', (req, res) => {
 
     console.log(`Devolución agregada con ID: ${this.lastID}`);
     res.redirect('/devolucion'); // Redirige a la vista de devoluciones
+  });
+});
+
+app.post('/formproveedor', (req, res) => {
+  const { nombre_proveedor, telefono, direccion, email } = req.body;
+
+  if (!nombre_proveedor || !telefono || !direccion || !email) {
+      return res.status(400).send('Todos los campos son obligatorios.');
+  }
+
+  const sql = "INSERT INTO Proveedor (Nombre_Proveedor, Telefono, Direccion, Email) VALUES (?, ?, ?, ?)";
+
+  db.run(sql, [nombre_proveedor, telefono, direccion, email], function (err) {
+      if (err) {
+          console.error(err.message);
+          return res.status(500).send('Error al agregar el proveedor.');
+      }
+      res.redirect('/proveedor');
   });
 });
 

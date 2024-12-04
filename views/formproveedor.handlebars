@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/files/css/Adminpro.css">
-</head>
-<body>
-    <section>
-        <div class="nav">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/files/css/formulariopro.css">
+    </head>
+    <body>
+
+        <section>
+           <div class="nav">
 
                 <ul>
                     <li>
@@ -71,61 +72,57 @@
                         </a>
                     </li>
                 </ul>
-        </div>
-
-        <div class="container">
-            <div class="topbar">
-                <div class="toggle">
-                    <ion-icon name="menu"></ion-icon>
-                </div>
-
-                <div class="buscar">
-                    <label for="">
-                        <input type="text" placeholder="Buscar..." name="" id="">
-                        <ion-icon name="search"></ion-icon>
-                    </label>
-                </div>
-                <div class="perfil-usuario">
-                    <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
-                </div>
             </div>
-
-            <div class="detalles">
-                <div class="ordenes-recientes">
-                    <div class="header">
-                        <h2>Clientes</h2>
-                        <a href="/formulariocliente" class="boton">Añadir Cliente</a>
+            
+            <div class="container">
+                <div class="topbar">
+                    <div class="toggle">
+                        <ion-icon name="menu"></ion-icon>
+                    </div> 
+                
+                    <div class="buscar">
+                        <label>
+                            <input type="text" placeholder="Buscar..." name="" id="">
+                            <ion-icon name="search"></ion-icon>
+                        </label>
                     </div>
-                    <table>
-                        <thead>
-                            <th>Id Cliente</th>
-                            <th>Nombre</th>
-                            <th>Telefono</th>
-                            <th>Direccion</th>
-                            <th>Fecha de Registro</th>
-                        </thead>
-                        <tbody>
-                            {{#each productos}}
-                                <tr>
-                                    <td>{{this.ID_Cliente}}</td>
-                                    <td>{{this.Nombre}}</td>
-                                    <td>{{this.Telefono}}</td>
-                                    <td>{{this.Direccion}}</td>
-                                    <td>{{this.Fecha_Registro}}</td>
-                                </tr>
-                            {{else}}
-                                <tr>
-                                    <td colspan="5">No hay clientes disponibles.</td>
-                                </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
+                    <div class="perfil-usuario">
+                        <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</body>
+                <div class="detalles">
+                    <form action="/formproveedor" method="POST">
+                        <div class="ordenes-recientes">
+                            <div class="header">
+                                <h2>Nuevo Proveedor</h2>
+                                <a href="/proveedor" class="boton">Atras</a>
+                            </div>
+                            <section class="form-product">
+                            
+                                <label for="nombre_proveedor">Nombre</label>
+                                <input class="controls" type="text" name="nombre_proveedor" id="nombre_proveedor" placeholder="Ingrese Nombre">
+
+                                <label for="telefono">Telefono</label>
+                                <input class="controls" type="number" name="telefono" id="telefono" placeholder="Ingrese el Telefono">
+                                
+                                <label for="direccion">Direccion</label>
+                                <input class="controls" type="text" name="direccion" id="direccion" placeholder="Ingrese Direccion">
+
+                                <label for="email">Email</label>
+                                <input class="controls" type="text" name="email" id="email" placeholder="Ingrese Correo">
+
+                                <label for="fecha">Agregar Proveedor</label>
+                                <input class="botons" type="submit" value="Agregar Proveedor">
+                            </section>
+                        </div>
+                    </form>
+                </div>  
+            </div>    
+        </section>
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    </body>
 </html>
