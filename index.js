@@ -44,7 +44,6 @@ app.get('/', (req, res) => {
   res.render('Admin');
 });
 
-
 /*
 // AGREGAR LOS CLIENTES A LA BASE DE DATOS
  db.serialize(() => {
@@ -297,8 +296,6 @@ orden_producto.forEach(orden_producto=> {
 })
 */
 
-
-
 //muestra todos los clientes
 app.get('/clientes', (req, res) => {
   db.all('SELECT * FROM Clientes', [], (err, rows) => {
@@ -318,7 +315,6 @@ app.get('/orden', async (req, res) => {
   res.render('orden');
 });
 
-
 app.get('/Adminperfiles', (req, res) => {
   db.all('SELECT * FROM Clientes', [], (err, rows) => {
       if (err) {
@@ -329,7 +325,6 @@ app.get('/Adminperfiles', (req, res) => {
   });
 });
 
-
 app.get('/Adminprod', (req, res) => {
   db.all('SELECT * FROM Productos', [], (err, rows) => {
       if (err) {
@@ -339,8 +334,6 @@ app.get('/Adminprod', (req, res) => {
       res.render('adminprod', { productos: rows });
   });
 });
-
-
 
 app.get('/proveedor', (req, res) => {
   db.all('SELECT * FROM Proveedor', [], (err, rows) => {
@@ -411,6 +404,7 @@ app.get('/productoPromocion', (req, res) => {
       res.render('productoPromocion', { productos: rows });
   });
 });
+
 app.get('/ordenProducto', (req, res) => {
   db.all('SELECT * FROM Orden_Producto', [], (err, rows) => {
       if (err) {
@@ -420,7 +414,6 @@ app.get('/ordenProducto', (req, res) => {
       res.render('ordenProducto', { productos: rows });
   });
 });
-
 
 // formulario_editar - formulario_agregar
 app.get('/formularioedit', async (req, res) => { 
@@ -448,8 +441,6 @@ app.get('/formularioedit', async (req, res) => {
   }
 });
 
-
-
 app.get('/formulariopro', async (req, res) => {
   res.render('formulariopro');
 });
@@ -473,8 +464,6 @@ app.get('/eliminarpro', (req, res) => {
   res.render('eliminarpro', { producto_id: id }); // Pasa el ID del producto a la vista para confirmación
 });
 
-
-
 app.post('/formulariopro', (req, res) => {
   const { nombre, stock, precio, categoria, descripcion, id_proveedor } = req.body;
 
@@ -492,8 +481,6 @@ app.post('/formulariopro', (req, res) => {
       res.redirect('/Adminprod'); // Redirige a la página de administración de productos
   });
 });
-
-
 
 app.post('/formularioedit/producto/:ID_Producto', (req, res) => {
   const productId = req.params.ID_Producto;
@@ -524,7 +511,6 @@ app.post('/formularioedit/producto/:ID_Producto', (req, res) => {
   );
 });
 
-
 app.post('/eliminarpro', (req, res) => {
   const productoId = req.body.producto_id; // ID proporcionado desde el formulario
 
@@ -544,7 +530,6 @@ app.post('/eliminarpro', (req, res) => {
     res.redirect('/Adminprod'); // Redirige a la lista de productos
   });
 });
-
 
 app.post('/Adminprod', async (req, res) => {
   const productoId = req.body.id; // Obtener el ID del producto desde el formulario
@@ -627,18 +612,19 @@ app.post('/consultas', (req, res) => {
       ORDER BY Productos_Vendidos DESC;
     `,
     consulta9: `
-      SELECT p.Nombre_Proveedor, AVG(JULIANDAY(oc.Fecha_Entrega) - JULIANDAY(oc.Fecha)) AS Promedio_Dias_Entrega
-      FROM Orden_Compra oc
-      JOIN Proveedor p ON oc.ID_Proveedor = p.ID_Proveedor
-      WHERE oc.Fecha_Entrega IS NOT NULL
-      GROUP BY p.Nombre_Proveedor;
+      SELECT p.Categoria, AVG((p.Precio - p.Costo) * 100.0 / p.Precio) AS Margen_Promedio
+      FROM Productos p
+      GROUP BY p.Categoria;
     `,
     consulta10: `
-      SELECT p.Nombre_Proveedor, AVG(JULIANDAY(oc.Fecha_Entrega) - JULIANDAY(oc.Fecha)) AS Promedio_Dias_Entrega
-      FROM Orden_Compra oc
-      JOIN Proveedor p ON oc.ID_Proveedor = p.ID_Proveedor
-      WHERE oc.Fecha_Entrega IS NOT NULL
-      GROUP BY p.Nombre_Proveedor;
+      SELECT
+            STRFTIME('%m', v.Fecha) AS Mes,
+            SUM(CASE WHEN v.Fecha BETWEEN pr.Fecha_Inicio AND pr.Fecha_Fin THEN v.Total ELSE 0 END) AS Ventas_Con_Promocion,
+            SUM(CASE WHEN v.Fecha NOT BETWEEN pr.Fecha_Inicio AND pr.Fecha_Fin THEN v.Total ELSE 0 END) AS Ventas_Sin_Promocion
+      FROM Venta v
+      LEFT JOIN Producto_Promocion pp ON v.ID_Venta = pp.ID_Promocion
+      LEFT JOIN Promocion pr ON pp.ID_Promocion = pr.ID_Promocion
+      GROUP BY STRFTIME('%m', v.Fecha);
     `,
   };
 
@@ -658,6 +644,5 @@ app.post('/consultas', (req, res) => {
     res.render('consultas', { resultados: rows });
   });
 });
-
 
 app.listen(3001, () => console.log('Servidor encendido en el puerto 3000'));

@@ -35,6 +35,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="/promocion">
+                            <span class="icono"><ion-icon name="megaphone-outline"></ion-icon></span>
+                            <span class="titulo">Promociones</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="/consultas">
                             <span class="icono"><ion-icon name="information-circle-outline"></ion-icon></span>
                             <span class="titulo">Consultas</span>
@@ -53,9 +59,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <span class="icono"><ion-icon name="settings-outline"></ion-icon></span>
-                            <span class="titulo">Ajustes</span>
+                        <a href="/devolucion">
+                            <span class="icono"><ion-icon name="swap-horizontal-outline"></ion-icon></span>
+                            <span class="titulo">Devoluciones</span>
                         </a>
                     </li>
                     <li>
@@ -87,16 +93,16 @@
             <div class="detalles">
                 <div class="ordenes-recientes">
                     <div class="header">
-                        <h2>Clientes</h2>
-                        <a href="/formulariocliente" class="boton">Añadir Cliente</a>
+                        <h2>Proveedores</h2>
+                        <a href="/formulariocliente" class="boton">Añadir Proveedor</a>
                     </div>
                     <table>
                         <thead>
-                            <th>Id Cliente</th>
+                            <th>Id Proveedor</th>
                             <th>Nombre</th>
                             <th>Telefono</th>
                             <th>Direccion</th>
-                            <th>Fecha de Registro</th>
+                            <th>Email</th>
                         </thead>
                         <tbody>
                             {{#each productos}}
@@ -109,7 +115,7 @@
                                 </tr>
                             {{else}}
                                 <tr>
-                                    <td colspan="5">No hay clientes disponibles.</td>
+                                    <td colspan="5">No hay proveedores disponibles.</td>
                                 </tr>
                             {{/each}}
                         </tbody>
