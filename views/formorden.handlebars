@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/files/css/Adminpro.css">
-</head>
-<body>
-    <section>
-        <div class="nav">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/files/css/formulariopro.css">
+    </head>
+    <body>
+
+        <section>
+           <div class="nav">
 
                 <ul>
                     <li>
@@ -72,59 +73,53 @@
                     </li>
                 </ul>
             </div>
-
-        <div class="container">
-            <div class="topbar">
-                <div class="toggle">
-                    <ion-icon name="menu"></ion-icon>
-                </div>
-
-                <div class="buscar">
-                    <label for="">
-                        <input type="text" placeholder="Buscar..." name="" id="">
-                        <ion-icon name="search"></ion-icon>
-                    </label>
-                </div>
-                <div class="perfil-usuario">
-                    <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
-                </div>
-            </div>
-
-            <div class="detalles">
-                <div class="ordenes-recientes">
-                    <div class="header">
-                        <h2>Ordenes de compra</h2>
-                        <a href="/formorden" class="boton">Añadir Orden</a>
+            
+            <div class="container">
+                <div class="topbar">
+                    <div class="toggle">
+                        <ion-icon name="menu"></ion-icon>
+                    </div> 
+                
+                    <div class="buscar">
+                        <label>
+                            <input type="text" placeholder="Buscar..." name="" id="">
+                            <ion-icon name="search"></ion-icon>
+                        </label>
                     </div>
-                    <table>
-                        <thead>
-                            <th>ID Orden</th>
-                            <th>Fecha</th>
-                            <th>Total</th>
-                            <th>ID Proveedor</th>
-                            
-                        </thead>
-                        <tbody>
-                            {{#each productos}}
-                                <tr>
-                                    <td>{{this.ID_Orden}}</td>
-                                    <td>{{this.Fecha}}</td>
-                                    <td>${{this.Total}}</td>
-                                    <td>{{this.ID_Proveedor}}</td>
-                                </tr>
-                            {{else}}
-                                <tr>
-                                    <td colspan="4">No hay ordenes de compra registradas.</td>
-                                </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
+                    <div class="perfil-usuario">
+                        <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</body>
+                <div class="detalles">
+                    <form action="/formorden" method="POST">
+                        <div class="ordenes-recientes">
+                            <div class="header">
+                                <h2>Nueva Orden</h2>
+                                <a href="/orden" class="boton">Atras</a>
+                            </div>
+                            <section class="form-product">
+                            
+                                <label for="fecha">Fecha</label>
+                                <input class="controls" type="date" id="fecha" name="fecha" required>
+                                
+                                <label for="total">Total</label>
+                                <input class="controls" type="number" id="total" name="total" required>
+                                
+                                <label for="id_cliente">ID Proveedor (opcional)</label>
+                                <input class="controls" type="number" id="id_proveedor" name="id_proveedor">
+                                
+                                <label for="fecha">Registrar Orden</label>
+                                <input class="botons" type="submit" value="Registrar Orden">
+                            </section>
+                        </div>
+                    </form>
+                </div>  
+            </div>    
+        </section>
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    </body>
 </html>

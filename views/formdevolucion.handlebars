@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/files/css/formulariopro.css">
+    </head>
+    <body>
+
+        <section>
+           <div class="nav">
+
+                <ul>
+                    <li>
+                        <a href="/">
+                            <span class="icono"><ion-icon name="aperture-outline"></ion-icon></span>
+                            <span class="titulo">Aura's</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/">
+                            <span class="icono"><ion-icon name="home-outline"></ion-icon></span>
+                            <span class="titulo">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Adminperfiles">
+                            <span class="icono"><ion-icon name="people-outline"></ion-icon></span>
+                            <span class="titulo">Clientes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Adminprod">
+                            <span class="icono"><ion-icon name="cart-outline"></ion-icon></span>
+                            <span class="titulo">Productos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/promocion">
+                            <span class="icono"><ion-icon name="megaphone-outline"></ion-icon></span>
+                            <span class="titulo">Promociones</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/consultas">
+                            <span class="icono"><ion-icon name="information-circle-outline"></ion-icon></span>
+                            <span class="titulo">Consultas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/orden">
+                            <span class="icono"><ion-icon name="clipboard-outline"></ion-icon></span>
+                            <span class="titulo">Ordenes Compra</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/venta">
+                            <span class="icono"><ion-icon name="bag-handle-outline"></ion-icon></span>
+                            <span class="titulo">Ventas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/devolucion">
+                            <span class="icono"><ion-icon name="swap-horizontal-outline"></ion-icon></span>
+                            <span class="titulo">Devoluciones</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/logout">
+                            <span class="icono"><ion-icon name="log-out-outline"></ion-icon></span>
+                            <span class="titulo">Cerrar Sesion</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="container">
+                <div class="topbar">
+                    <div class="toggle">
+                        <ion-icon name="menu"></ion-icon>
+                    </div> 
+                
+                    <div class="buscar">
+                        <label>
+                            <input type="text" placeholder="Buscar..." name="" id="">
+                            <ion-icon name="search"></ion-icon>
+                        </label>
+                    </div>
+                    <div class="perfil-usuario">
+                        <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
+                    </div>
+                </div>
+
+                <div class="detalles">
+                    <form action="/formdevolucion" method="POST">
+                        <div class="ordenes-recientes">
+                            <div class="header">
+                                <h2>Nueva Devolucion</h2>
+                                <a href="/devolucion" class="boton">Atras</a>
+                            </div>
+                            <section class="form-product">
+                            
+                                <label for="fecha">Fecha</label>
+                                <input class="controls" type="date" id="fecha" name="fecha" required>
+                                
+                                <label for="cantidad_devuelta">Cantidad Devuelta</label>
+                                <input class="controls" type="number" id="cantidad_devuelta" name="cantidad_devuelta" required>
+                                
+                                <label for="motivo">Motivo</label>
+                                <input class="controls" id="motivo" name="motivo" required></input>
+                                
+                                <label for="id_cliente">ID Cliente (opcional)</label>
+                                <input class="controls" type="number" id="id_cliente" name="id_cliente">
+                                
+                                <label for="id_producto">ID Producto (opcional)</label>
+                                <input class="controls" type="number" id="id_producto" name="id_producto">
+                                
+                                <label for="id_orden">ID Orden (opcional)</label>
+                                <input class="controls" type="number" id="id_orden" name="id_orden">
+
+                                <label for="fecha">Registrar Devolucion</label>
+                                <input class="botons" type="submit" value="Registrar Devolucion">
+                            </section>
+                        </div>
+                    </form>
+                </div>  
+            </div>    
+        </section>
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    </body>
+</html>

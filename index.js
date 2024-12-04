@@ -307,14 +307,6 @@ app.get('/clientes', (req, res) => {
   });
 });
 
-app.get('/venta', async (req, res) => {
-  res.render('venta');
-});
-
-app.get('/orden', async (req, res) => {
-  res.render('orden');
-});
-
 app.get('/Adminperfiles', (req, res) => {
   db.all('SELECT * FROM Clientes', [], (err, rows) => {
       if (err) {
@@ -346,13 +338,17 @@ app.get('/proveedor', (req, res) => {
 });
 
 app.get('/venta', (req, res) => {
-  db.all('SELECT * FROM Venta', [], (err, rows) => {
+  db.all('SELECT * FROM venta', [], (err, rows) => {
       if (err) {
           return res.status(500).send('Error al obtener los clientes');
       }
       
       res.render('venta', { productos: rows });
   });
+});
+
+app.get('/formventa', async (req, res) => {
+  res.render('formventa');
 });
 
 app.get('/orden', (req, res) => {
@@ -365,6 +361,10 @@ app.get('/orden', (req, res) => {
   });
 });
 
+app.get('/formorden', async (req, res) => {
+  res.render('formorden');
+});
+
 app.get('/devolucion', (req, res) => {
   db.all('SELECT * FROM devolucion', [], (err, rows) => {
       if (err) {
@@ -375,6 +375,10 @@ app.get('/devolucion', (req, res) => {
   });
 });
 
+app.get('/formdevolucion', async (req, res) => {
+  res.render('formdevolucion');
+});
+
 app.get('/promocion', (req, res) => {
   db.all('SELECT * FROM promocion', [], (err, rows) => {
       if (err) {
@@ -383,6 +387,10 @@ app.get('/promocion', (req, res) => {
      
       res.render('promocion', { productos: rows });
   });
+});
+
+app.get('/formpromocion', async (req, res) => {
+  res.render('formpromocion');
 });
 
 app.get('/ventaProducto', (req, res) => {
@@ -541,6 +549,106 @@ app.post('/Adminprod', async (req, res) => {
     console.error(error);
     res.status(500).send('Error al eliminar el producto');
   }
+});
+
+app.post('/formventa', (req, res) => {
+  const { fecha, total, metodo_pago, id_cliente } = req.body;
+
+  // Validar que los campos obligatorios están presentes
+  if (!fecha || !total || !metodo_pago) {
+    return res.status(400).send('Fecha, total y metodo de pago son obligatorios.');
+  }
+
+  // Insertar la devolución en la base de datos
+  const sql = `
+    INSERT INTO Venta (Fecha, Total, Metodo_Pago, ID_Cliente)
+    VALUES (?, ?, ?, ?)
+  `;
+
+  db.run(sql, [fecha, total, metodo_pago, id_cliente || null], function (err) {
+    if (err) {
+      console.error('Error al agregar la venta:', err.message);
+      return res.status(500).send('Error al procesar la venta.');
+    }
+
+    console.log(`Venta agregada con ID: ${this.lastID}`);
+    res.redirect('/venta'); // Redirige a la vista de devoluciones
+  });
+});
+
+app.post('/formorden', (req, res) => {
+  const { fecha, total, id_proveedor } = req.body;
+
+  // Validar que los campos obligatorios están presentes
+  if (!fecha || !total ) {
+    return res.status(400).send('Fecha y Total son obligatorios.');
+  }
+
+  // Insertar la devolución en la base de datos
+  const sql = `
+    INSERT INTO Orden_Compra (Fecha, Total, ID_Proveedor)
+    VALUES (?, ?, ?)
+  `;
+
+  db.run(sql, [fecha, total, id_proveedor || null], function (err) {
+    if (err) {
+      console.error('Error al agregar la orden:', err.message);
+      return res.status(500).send('Error al procesar la orden.');
+    }
+
+    console.log(`Orden agregada con ID: ${this.lastID}`);
+    res.redirect('/orden'); // Redirige a la vista de devoluciones
+  });
+});
+
+app.post('/formpromocion', (req, res) => {
+  const { descripcion, fecha_inicio, fecha_fin, descuento } = req.body;
+
+  // Validar que los campos obligatorios están presentes
+  if (!fecha_inicio || !fecha_fin || !descuento) {
+    return res.status(400).send('Fecha Inicio, Fecha Fin y Descuento son obligatorios.');
+  }
+
+  // Insertar la promoción en la base de datos
+  const sql = `
+    INSERT INTO Promocion (Descripcion, Fecha_Inicio, Fecha_Fin, Descuento)
+    VALUES (?, ?, ?, ?)
+  `;
+
+  db.run(sql, [descripcion || '', fecha_inicio, fecha_fin, descuento], function (err) {
+    if (err) {
+      console.error('Error al agregar la Promoción:', err.message);
+      return res.status(500).send('Error al procesar la promoción.');
+    }
+
+    console.log(`Promoción agregada con ID: ${this.lastID}`);
+    res.redirect('/promocion'); // Redirige a la vista de promociones
+  });
+});
+
+app.post('/formdevolucion', (req, res) => {
+  const { fecha, cantidad_devuelta, motivo, id_cliente, id_producto, id_orden } = req.body;
+
+  // Validar que los campos obligatorios están presentes
+  if (!fecha || !cantidad_devuelta || !motivo) {
+    return res.status(400).send('Fecha, cantidad devuelta y motivo son campos obligatorios.');
+  }
+
+  // Insertar la devolución en la base de datos
+  const sql = `
+    INSERT INTO Devolucion (Fecha, Cantidad_Devuelta, Motivo, ID_Cliente, ID_Producto, ID_Orden)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  db.run(sql, [fecha, cantidad_devuelta, motivo, id_cliente || null, id_producto || null, id_orden || null], function (err) {
+    if (err) {
+      console.error('Error al agregar la devolución:', err.message);
+      return res.status(500).send('Error al procesar la devolución.');
+    }
+
+    console.log(`Devolución agregada con ID: ${this.lastID}`);
+    res.redirect('/devolucion'); // Redirige a la vista de devoluciones
+  });
 });
 
 // Ruta para manejar las consultas
