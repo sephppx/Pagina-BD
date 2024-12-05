@@ -112,7 +112,8 @@
                                     <td>${{this.Total}}</td>
                                     <td>{{this.Metodo_Pago}}</td>
                                     <td>{{this.ID_Cliente}}</td>
-                                    
+                                    <td><a href="/formeditventa?ID_Venta={{ID_Venta}}"><button class="estatus pendiente">Editar</button></a></td>
+                                    <td><a href="/eliminarventa?ID_Venta={{ID_Venta}}"><button class="estatus devuelto">Eliminar</button></a></td>
                                 </tr>
                             {{else}}
                                 <tr>

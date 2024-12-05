@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/files/css/Adminpro.css">
-</head>
-<body>
-    <section>
-        <div class="nav">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/files/css/eliminarpro.css">
+    </head>
+    <body>
+
+        <section>
+            <div class="nav">
+
                 <ul>
                     <li>
                         <a href="/">
@@ -71,67 +73,48 @@
                     </li>
                 </ul>
             </div>
-
-        <div class="container">
-            <div class="topbar">
-                <div class="toggle">
-                    <ion-icon name="menu"></ion-icon>
-                </div>
-
-                <div class="buscar">
-                    <label for="">
-                        <input type="text" placeholder="Buscar..." name="" id="">
-                        <ion-icon name="search"></ion-icon>
-                    </label>
-                </div>
-                <div class="perfil-usuario">
-                    <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
-                </div>
-            </div>
-
-            <div class="detalles">
-                <div class="ordenes-recientes">
-                    <div class="header">
-                        <h2>Devoluciones</h2>
-                        <a href="/formdevolucion" class="boton">Añadir Devolucion</a>
+            
+            <div class="container">
+                <div class="topbar">
+                    <div class="toggle">
+                        <ion-icon name="menu"></ion-icon>
+                    </div> 
+                
+                    <div class="buscar">
+                        <label>
+                            <input type="text" placeholder="Buscar..." name="" id="">
+                            <ion-icon name="search"></ion-icon>
+                        </label>
                     </div>
-                    <table>
-                        <thead>
-                            <th>ID Devolucion</th>
-                            <th>Fecha</th>
-                            <th>Cantidad devuelta</th>
-                            <th>Motivo</th>
-                            <th>ID Cliente</th>
-                            <th>ID Produto</th>
-                            <th>ID Orden</th>
-                            
-                        </thead>
-                        <tbody>
-                            {{#each productos}}
-                                <tr>
-                                    <td>{{this.ID_Devolucion}}</td>
-                                    <td>{{this.Fecha}}</td>
-                                    <td>${{this.Cantidad_Devuelta}}</td>
-                                    <td>{{this.Motivo}}</td>
-                                    <td>{{this.ID_Cliente}}</td>
-                                    <td>{{this.ID_Producto}}</td>
-                                    <td>{{this.ID_Orden}}</td>
-                                    <td><a href="/formeditdevolucion?ID_Devolucion={{ID_Devolucion}}"><button class="estatus pendiente">Editar</button></a></td>
-                                    <td><a href="/eliminarpro?ID_Producto={{ID_Producto}}"><button class="estatus devuelto">Eliminar</button></a></td>
-                                </tr>
-                            {{else}}
-                                <tr>
-                                    <td colspan="7">No hay devolucion registradas.</td>
-                                </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
+                    <div class="perfil-usuario">
+                        <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</body>
+                <div class="detalles">
+                    <form action="/eliminarventa" method="POST">
+                        <div class="ordenes-recientes">
+                            <div class="header">
+                                <h2>Eliminar Venta</h2>
+                            </div>
+
+                            <div class="botones">
+                                <h2>¿Desea eliminar la venta?</h2>
+                                <input type="hidden" name="producto_id" value="{{producto_id}}">
+                                <div class="botones-container">
+                                    <button type="submit" class="boton-si">Sí</button>
+                                    <a href="/venta" class="boton-no">No</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>  
+            </div>    
+        </section>
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    </body>
 </html>

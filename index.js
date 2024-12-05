@@ -453,6 +453,156 @@ app.get('/formularioedit', async (req, res) => {
   }
 });
 
+app.get('/formeditcliente', async (req, res) => { 
+  const id = req.query.ID_Cliente;
+
+  if (!id || isNaN(id)) {
+    return res.status(400).send('ID de Cliente inválido o no proporcionado');
+  }
+
+  try {
+    const query = 'SELECT ID_Cliente, Nombre, Telefono, Direccion, Fecha_Registro FROM Clientes WHERE ID_Cliente = ?';
+    db.get(query, [id], (err, row) => {
+      if (err) {
+        console.error("Error al ejecutar la consulta:", err);
+        return res.status(500).send('Error interno del servidor');
+      }
+      if (!row) {
+        return res.status(404).send('Cliente no encontrado');
+      }
+      res.render('formeditcliente', { producto: row });
+    });
+  } catch (error) {
+    console.error("Error al obtener al Cliente:", error);
+    res.status(500).send('Error al cargar al Cliente');
+  }
+});
+
+app.get('/formeditdevolucion', async (req, res) => { 
+  const id = req.query.ID_Devolucion;
+
+  if (!id || isNaN(id)) {
+    return res.status(400).send('ID de devolucion inválido o no proporcionado');
+  }
+
+  try {
+    const query = 'SELECT ID_Devolucion, Fecha, Cantidad_Devuelta, Motivo, ID_Cliente, ID_Producto, ID_Orden FROM Devolucion WHERE ID_Devolucion = ?';
+    db.get(query, [id], (err, row) => {
+      if (err) {
+        console.error("Error al ejecutar la consulta:", err);
+        return res.status(500).send('Error interno del servidor');
+      }
+      if (!row) {
+        return res.status(404).send('Devolucion no encontrado');
+      }
+      res.render('formeditdevolucion', { producto: row });
+    });
+  } catch (error) {
+    console.error("Error al obtener la devolucion:", error);
+    res.status(500).send('Error al cargar la devolucion');
+  }
+});
+
+app.get('/formeditorden', async (req, res) => { 
+  const id = req.query.ID_Orden;
+
+  if (!id || isNaN(id)) {
+    return res.status(400).send('ID de orden inválido o no proporcionado');
+  }
+
+  try {
+    const query = 'SELECT ID_Orden, Fecha, Total, ID_Proveedor FROM Orden_Compra WHERE ID_Orden = ?';
+    db.get(query, [id], (err, row) => {
+      if (err) {
+        console.error("Error al ejecutar la consulta:", err);
+        return res.status(500).send('Error interno del servidor');
+      }
+      if (!row) {
+        return res.status(404).send('Orden no encontrado');
+      }
+      res.render('formeditorden', { producto: row });
+    });
+  } catch (error) {
+    console.error("Error al obtener la orden:", error);
+    res.status(500).send('Error al cargar la orden');
+  }
+});
+
+app.get('/formeditpromocion', async (req, res) => { 
+  const id = req.query.ID_Promocion;
+
+  if (!id || isNaN(id)) {
+    return res.status(400).send('ID de Promocion inválido o no proporcionado');
+  }
+
+  try {
+    const query = 'SELECT ID_Promocion, Descripcion, Fecha_Inicio, Fecha_Fin, Descuento FROM Promocion WHERE ID_Promocion = ?';
+    db.get(query, [id], (err, row) => {
+      if (err) {
+        console.error("Error al ejecutar la consulta:", err);
+        return res.status(500).send('Error interno del servidor');
+      }
+      if (!row) {
+        return res.status(404).send('Promocion no encontrado');
+      }
+      res.render('formeditpromocion', { producto: row });
+    });
+  } catch (error) {
+    console.error("Error al obtener la promocion:", error);
+    res.status(500).send('Error al cargar la promocion');
+  }
+});
+
+app.get('/formeditproveedor', async (req, res) => { 
+  const id = req.query.ID_Proveedor;
+
+  if (!id || isNaN(id)) {
+    return res.status(400).send('ID de Proveedor inválido o no proporcionado');
+  }
+
+  try {
+    const query = 'SELECT ID_Proveedor, Nombre_Proveedor, Direccion, Telefono, Email FROM Proveedor WHERE ID_Proveedor = ?';
+    db.get(query, [id], (err, row) => {
+      if (err) {
+        console.error("Error al ejecutar la consulta:", err);
+        return res.status(500).send('Error interno del servidor');
+      }
+      if (!row) {
+        return res.status(404).send('Proveedor no encontrado');
+      }
+      res.render('formeditproveedor', { producto: row });
+    });
+  } catch (error) {
+    console.error("Error al obtener el Proveedor:", error);
+    res.status(500).send('Error al cargar el Proveedor');
+  }
+});
+
+app.get('/formeditventa', async (req, res) => { 
+  const id = req.query.ID_Venta;
+
+  if (!id || isNaN(id)) {
+    return res.status(400).send('ID de Venta inválido o no proporcionado');
+  }
+
+  try {
+    const query = 'SELECT ID_Venta, Fecha, Total, Metodo_Pago, ID_Cliente FROM Venta WHERE ID_Venta = ?';
+    db.get(query, [id], (err, row) => {
+      if (err) {
+        console.error("Error al ejecutar la consulta:", err);
+        return res.status(500).send('Error interno del servidor');
+      }
+      if (!row) {
+        return res.status(404).send('Venta no encontrado');
+      }
+      res.render('formeditventa', { producto: row });
+    });
+  } catch (error) {
+    console.error("Error al obtener el Venta:", error);
+    res.status(500).send('Error al cargar el Venta');
+  }
+});
+
 app.get('/formulariopro', async (req, res) => {
   res.render('formulariopro');
 });
@@ -474,6 +624,26 @@ app.get('/eliminarpro', (req, res) => {
   }
 
   res.render('eliminarpro', { producto_id: id }); // Pasa el ID del producto a la vista para confirmación
+});
+
+app.get('/eliminarventa', (req, res) => {
+  const id = req.query.ID_Venta; 
+
+  if (!id) {
+    return res.status(400).send('ID de venta no proporcionado');
+  }
+
+  res.render('eliminarventa', { producto_id: id }); // Pasa el ID del producto a la vista para confirmación
+});
+
+app.get('/eliminarcliente', (req, res) => {
+  const id = req.query.ID_Cliente; 
+
+  if (!id) {
+    return res.status(400).send('ID del Cliente no proporcionado');
+  }
+
+  res.render('eliminarcliente', { producto_id: id }); // Pasa el ID del producto a la vista para confirmación
 });
 
 app.post('/formulariocliente', (req, res) => {
@@ -541,6 +711,180 @@ app.post('/formularioedit/producto/:ID_Producto', (req, res) => {
   );
 });
 
+app.post('/formeditcliente/cliente/:ID_Cliente', (req, res) => {
+  const productId = req.params.ID_Cliente;
+  const { Nombre, Telefono, Direccion, Fecha_Registro } = req.body;
+
+  if (!Nombre || !Telefono || !Direccion || !Fecha_Registro) {
+    return res.status(400).send('Todos los campos son obligatorios.');
+  }
+
+  const query = `
+    UPDATE Clientes
+    SET Nombre = ?, Telefono = ?, Direccion = ?, Fecha_Registro = ?
+    WHERE ID_Cliente = ?
+  `;
+
+  db.run(
+    query,
+    [Nombre, Telefono, Direccion, Fecha_Registro, productId],
+    function (err) {
+      if (err) {
+        console.error("Error al actualizar el Cliente:", err);
+        return res.status(500).send('Error al actualizar el Cliente.');
+      }
+
+      console.log(`Cliente con ID ${productId} actualizado correctamente.`);
+      res.redirect('/Adminperfiles');
+    }
+  );
+});
+
+app.post('/formeditdevolucion/devolucion/:ID_Devolucion', (req, res) => {
+  const productId = req.params.ID_Devolucion;
+  const { Fecha, Cantidad_Devuelta, Motivo, ID_Cliente, ID_Producto, ID_Orden } = req.body;
+
+  if (!Fecha || !Cantidad_Devuelta || !Motivo || !ID_Cliente || !ID_Producto || !ID_Orden) {
+    return res.status(400).send('Todos los campos son obligatorios.');
+  }
+
+  const query = `
+    UPDATE Devolucion
+    SET Fecha = ?, Cantidad_Devuelta = ?, Motivo = ?, ID_Cliente = ?, ID_Producto = ?, ID_Orden = ?
+    WHERE ID_Devolucion = ?
+  `;
+
+  db.run(
+    query,
+    [Fecha, Cantidad_Devuelta, Motivo, ID_Cliente, ID_Producto, ID_Orden, productId],
+    function (err) {
+      if (err) {
+        console.error("Error al actualizar la devolucion:", err);
+        return res.status(500).send('Error al actualizar la devolucion.');
+      }
+
+      console.log(`Devolucion con ID ${productId} actualizado correctamente.`);
+      res.redirect('/devolucion');
+    }
+  );
+});
+
+app.post('/formeditorden/orden/:ID_Orden', (req, res) => {
+  const productId = req.params.ID_Orden;
+  const { Fecha, Total, ID_Proveedor } = req.body;
+
+  if (!Fecha || !Total || !ID_Proveedor) {
+    return res.status(400).send('Todos los campos son obligatorios.');
+  }
+
+  const query = `
+    UPDATE Orden_Compra
+    SET Fecha = ?, Total = ?, ID_Proveedor = ?
+    WHERE ID_Orden = ?
+  `;
+
+  db.run(
+    query,
+    [ Fecha, Total, ID_Proveedor, productId],
+    function (err) {
+      if (err) {
+        console.error("Error al actualizar la orden:", err);
+        return res.status(500).send('Error al actualizar la orden.');
+      }
+
+      console.log(`Orden con ID ${productId} actualizado correctamente.`);
+      res.redirect('/orden');
+    }
+  );
+});
+
+app.post('/formeditpromocion/promocion/:ID_Promocion', (req, res) => {
+  const productId = req.params.ID_Promocion;
+  const { Descripcion, Fecha_Inicio, Fecha_Fin, Descuento } = req.body;
+
+  if (!Descripcion || !Fecha_Inicio || !Fecha_Fin || !Descuento) {
+    return res.status(400).send('Todos los campos son obligatorios.');
+  }
+
+  const query = `
+    UPDATE Promocion
+    SET Descripcion = ?, Fecha_Inicio = ?, Fecha_Fin = ?, Descuento = ?
+    WHERE ID_Promocion = ?
+  `;
+
+  db.run(
+    query,
+    [ Descripcion, Fecha_Inicio, Fecha_Fin, Descuento, productId],
+    function (err) {
+      if (err) {
+        console.error("Error al actualizar la promocion:", err);
+        return res.status(500).send('Error al actualizar la promocion.');
+      }
+
+      console.log(`Promocion con ID ${productId} actualizado correctamente.`);
+      res.redirect('/promocion');
+    }
+  );
+});
+
+app.post('/formeditproveedor/proveedor/:ID_Proveedor', (req, res) => {
+  const productId = req.params.ID_Proveedor;
+  const { Nombre_Proveedor, Direccion, Telefono, Email } = req.body;
+
+  if (!Nombre_Proveedor || !Direccion || !Telefono || !Email) {
+    return res.status(400).send('Todos los campos son obligatorios.');
+  }
+
+  const query = `
+    UPDATE Proveedor
+    SET Nombre_Proveedor = ?, Direccion = ?, Telefono = ?, Email = ?
+    WHERE ID_Proveedor = ?
+  `;
+
+  db.run(
+    query,
+    [Nombre_Proveedor, Direccion, Telefono, Email, productId],
+    function (err) {
+      if (err) {
+        console.error("Error al actualizar el Proveedor:", err);
+        return res.status(500).send('Error al actualizar el Proveedor.');
+      }
+
+      console.log(`Proveedor con ID ${productId} actualizado correctamente.`);
+      res.redirect('/proveedor');
+    }
+  );
+});
+
+app.post('/formeditventa/venta/:ID_Venta', (req, res) => {
+  const productId = req.params.ID_Venta;
+  const { Fecha, Total, Metodo_Pago, ID_Cliente } = req.body;
+
+  if (!Fecha || !Total || !Metodo_Pago || !ID_Cliente) {
+    return res.status(400).send('Todos los campos son obligatorios.');
+  }
+
+  const query = `
+    UPDATE Venta
+    SET Fecha = ?, Total = ?, Metodo_Pago = ?, ID_Cliente = ?
+    WHERE ID_Venta = ?
+  `;
+
+  db.run(
+    query,
+    [Fecha, Total, Metodo_Pago, ID_Cliente, productId],
+    function (err) {
+      if (err) {
+        console.error("Error al actualizar el Venta:", err);
+        return res.status(500).send('Error al actualizar el Venta.');
+      }
+
+      console.log(`Venta con ID ${productId} actualizado correctamente.`);
+      res.redirect('/venta');
+    }
+  );
+});
+
 app.post('/eliminarpro', (req, res) => {
   const productoId = req.body.producto_id; // ID proporcionado desde el formulario
 
@@ -558,6 +902,46 @@ app.post('/eliminarpro', (req, res) => {
 
     console.log(`Producto con ID ${productoId} eliminado correctamente.`);
     res.redirect('/Adminprod'); // Redirige a la lista de productos
+  });
+});
+
+app.post('/eliminarventa', (req, res) => {
+  const productoId = req.body.producto_id; // ID proporcionado desde el formulario
+
+  if (!productoId) {
+    return res.status(400).send('ID de venta no proporcionado');
+  }
+
+  const query = 'DELETE FROM Venta WHERE ID_Venta = ?'; // Asegúrate de que el nombre de la tabla y columna coincidan
+
+  db.run(query, [productoId], function (err) {
+    if (err) {
+      console.error("Error al eliminar la venta:", err);
+      return res.status(500).send('Error al eliminar la venta');
+    }
+
+    console.log(`Venta con ID ${productoId} eliminado correctamente.`);
+    res.redirect('/venta'); // Redirige a la lista de productos
+  });
+});
+
+app.post('/eliminarcliente', (req, res) => {
+  const productoId = req.body.producto_id; // ID proporcionado desde el formulario
+
+  if (!productoId) {
+    return res.status(400).send('ID del Cliente no proporcionado');
+  }
+
+  const query = 'DELETE FROM Clientes WHERE ID_Cliente = ?'; // Asegúrate de que el nombre de la tabla y columna coincidan
+
+  db.run(query, [productoId], function (err) {
+    if (err) {
+      console.error("Error al eliminar el Cliente:", err);
+      return res.status(500).send('Error al eliminar el Cliente');
+    }
+
+    console.log(`Cliente con ID ${productoId} eliminado correctamente.`);
+    res.redirect('/Adminperfiles'); // Redirige a la lista de productos
   });
 });
 
