@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/files/css/Adminpro.css">
-</head>
-<body>
-    <section>
-        <div class="nav">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/files/css/eliminarpro.css">
+    </head>
+    <body>
+
+        <section>
+            <div class="nav">
 
                 <ul>
                     <li>
@@ -72,62 +73,48 @@
                     </li>
                 </ul>
             </div>
-
-        <div class="container">
-            <div class="topbar">
-                <div class="toggle">
-                    <ion-icon name="menu"></ion-icon>
-                </div>
-
-                <div class="buscar">
-                    <label for="">
-                        <input type="text" placeholder="Buscar..." name="" id="">
-                        <ion-icon name="search"></ion-icon>
-                    </label>
-                </div>
-                <div class="perfil-usuario">
-                    <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
-                </div>
-            </div>
-
-            <div class="detalles">
-                <div class="ordenes-recientes">
-                    <div class="header">
-                        <h2>Proveedores</h2>
-                        <a href="/formproveedor" class="boton">Añadir Proveedor</a>
+            
+            <div class="container">
+                <div class="topbar">
+                    <div class="toggle">
+                        <ion-icon name="menu"></ion-icon>
+                    </div> 
+                
+                    <div class="buscar">
+                        <label>
+                            <input type="text" placeholder="Buscar..." name="" id="">
+                            <ion-icon name="search"></ion-icon>
+                        </label>
                     </div>
-                    <table>
-                        <thead>
-                            <th>Id Proveedor</th>
-                            <th>Nombre</th>
-                            <th>Telefono</th>
-                            <th>Direccion</th>
-                            <th>Email</th>
-                        </thead>
-                        <tbody>
-                            {{#each productos}}
-                                <tr>
-                                    <td>{{this.ID_Proveedor}}</td>
-                                    <td>{{this.Nombre_Proveedor}}</td>
-                                    <td>{{this.Telefono}}</td>
-                                    <td>{{this.Direccion}}</td>
-                                    <td>{{this.Email}}</td>
-                                    <td><a href="/formeditproveedor?ID_Proveedor={{ID_Proveedor}}"><button class="estatus pendiente">Editar</button></a></td>
-                                    <td><a href="/eliminarproveedor?ID_Proveedor={{ID_Proveedor}}"><button class="estatus devuelto">Eliminar</button></a></td>
-                                </tr>
-                            {{else}}
-                                <tr>
-                                    <td colspan="5">No hay proveedores disponibles.</td>
-                                </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
+                    <div class="perfil-usuario">
+                        <img src="/files/img/IMG/Sample_User_Icon.png" alt="">
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</body>
+                <div class="detalles">
+                    <form action="/eliminarorden" method="POST">
+                        <div class="ordenes-recientes">
+                            <div class="header">
+                                <h2>Eliminar Orden</h2>
+                            </div>
+
+                            <div class="botones">
+                                <h2>¿Desea eliminar la Orden?</h2>
+                                <input type="hidden" name="producto_id" value="{{producto_id}}">
+                                <div class="botones-container">
+                                    <button type="submit" class="boton-si">Sí</button>
+                                    <a href="/orden" class="boton-no">No</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>  
+            </div>    
+        </section>
+
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    </body>
 </html>

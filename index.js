@@ -646,6 +646,36 @@ app.get('/eliminarcliente', (req, res) => {
   res.render('eliminarcliente', { producto_id: id }); // Pasa el ID del producto a la vista para confirmación
 });
 
+app.get('/eliminarorden', (req, res) => {
+  const id = req.query.ID_Orden; 
+
+  if (!id) {
+    return res.status(400).send('ID de la Orden no proporcionado');
+  }
+
+  res.render('eliminarorden', { producto_id: id }); // Pasa el ID del producto a la vista para confirmación
+});
+
+app.get('/eliminarproveedor', (req, res) => {
+  const id = req.query.ID_Proveedor; 
+
+  if (!id) {
+    return res.status(400).send('ID del Proveedor no proporcionado');
+  }
+
+  res.render('eliminarproveedor', { producto_id: id }); // Pasa el ID del producto a la vista para confirmación
+});
+
+app.get('/eliminarpromocion', (req, res) => {
+  const id = req.query.ID_Promocion; 
+
+  if (!id) {
+    return res.status(400).send('ID del Promocion no proporcionado');
+  }
+
+  res.render('eliminarpromocion', { producto_id: id }); // Pasa el ID del producto a la vista para confirmación
+});
+
 app.post('/formulariocliente', (req, res) => {
   const { nombre, telefono, direccion, fecha_registro } = req.body;
 
@@ -942,6 +972,66 @@ app.post('/eliminarcliente', (req, res) => {
 
     console.log(`Cliente con ID ${productoId} eliminado correctamente.`);
     res.redirect('/Adminperfiles'); // Redirige a la lista de productos
+  });
+});
+
+app.post('/eliminarorden', (req, res) => {
+  const productoId = req.body.producto_id; // ID proporcionado desde el formulario
+
+  if (!productoId) {
+    return res.status(400).send('ID de la Orden no proporcionado');
+  }
+
+  const query = 'DELETE FROM Orden_Compra WHERE ID_Orden = ?'; // Asegúrate de que el nombre de la tabla y columna coincidan
+
+  db.run(query, [productoId], function (err) {
+    if (err) {
+      console.error("Error al eliminar la Orden:", err);
+      return res.status(500).send('Error al eliminar la Orden');
+    }
+
+    console.log(`Orden con ID ${productoId} eliminado correctamente.`);
+    res.redirect('/orden'); // Redirige a la lista de productos
+  });
+});
+
+app.post('/eliminarproveedor', (req, res) => {
+  const productoId = req.body.producto_id; // ID proporcionado desde el formulario
+
+  if (!productoId) {
+    return res.status(400).send('ID del Proveedor no proporcionado');
+  }
+
+  const query = 'DELETE FROM Proveedor WHERE ID_Proveedor = ?'; // Asegúrate de que el nombre de la tabla y columna coincidan
+
+  db.run(query, [productoId], function (err) {
+    if (err) {
+      console.error("Error al eliminar el Proveedor:", err);
+      return res.status(500).send('Error al eliminar el Proveedor');
+    }
+
+    console.log(`Proveedor con ID ${productoId} eliminado correctamente.`);
+    res.redirect('/proveedor'); // Redirige a la lista de productos
+  });
+});
+
+app.post('/eliminarpromocion', (req, res) => {
+  const productoId = req.body.producto_id; // ID proporcionado desde el formulario
+
+  if (!productoId) {
+    return res.status(400).send('ID de la Promocion no proporcionado');
+  }
+
+  const query = 'DELETE FROM Promocion WHERE ID_Promocion = ?'; // Asegúrate de que el nombre de la tabla y columna coincidan
+
+  db.run(query, [productoId], function (err) {
+    if (err) {
+      console.error("Error al eliminar la Promocion:", err);
+      return res.status(500).send('Error al eliminar la Promocion');
+    }
+
+    console.log(`Promocion con ID ${productoId} eliminado correctamente.`);
+    res.redirect('/promocion'); // Redirige a la lista de productos
   });
 });
 
