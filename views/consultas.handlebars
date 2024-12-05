@@ -101,7 +101,7 @@
                                 <form id="formulario-consulta" action="/consultas" method="POST">
                                     <h3>Consultas</h3>
                                 <div class="consulta-barra">
-                                    <select id="consulta">
+                                    <select id="consulta" name="consulta">
                                         <option value="consulta1">¿Cuáles son los productos más vendidos en el último mes?</option>
                                         <option value="consulta2">¿Qué clientes han hecho compras superiores a un monto específico?</option>
                                         <option value="consulta3">¿Cuál es el tiempo promedio de entrega de cada proveedor?</option>
@@ -123,19 +123,33 @@
 
                                 <!-- Área para mostrar el resultado -->
                                 <div class="resultado">
-                                    <div id="resultados">
-                                        {{#if resultados}}
-                                            <h4>Resultados:</h4>
-                                            <ul>
-                                            {{#each resultados}}
-                                                <li>{{this}}</li>
-                                            {{/each}}
-                                            </ul>
-                                        {{else}}
-                                            <p>No se han realizado consultas.</p>
-                                        {{/if}}
-                                    </div>   
-                                </div>
+    <div id="resultados">
+        {{#if resultados}}
+            <h4>Resultados:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        {{#each resultados.[0]}}
+                            <th>{{@key}}</th>
+                        {{/each}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each resultados}}
+                        <tr>
+                            {{#each this}}
+                                <td>{{this}}</td>
+                            {{/each}}
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        {{else}}
+            <p>No se han realizado consultas.</p>
+        {{/if}}
+    </div>   
+</div>
+
                         </div>
                 </div>  
             </div>    

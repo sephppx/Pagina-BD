@@ -105,6 +105,7 @@
                             <th>Precio</th>
                             <th>Stock</th>
                             <th>Descripcion</th>
+                            <th>Costo unidad</th>
                             <th>ID Proveedor</th>
                         </thead>
                         <tbody>
@@ -116,13 +117,14 @@
                                     <td>${{this.Precio}}</td>
                                     <td>{{this.Stock}}</td>
                                     <td>{{this.Descripcion}}</td>
+                                    <td>${{this.Costo}}</td>
                                     <td>{{this.ID_Proveedor}}</td>
                                     <td><a href="/formularioedit?ID_Producto={{ID_Producto}}"><button class="estatus pendiente">Editar</button></a></td>
                                     <td><a href="/eliminarpro?ID_Producto={{ID_Producto}}"><button class="estatus devuelto">Eliminar</button></a></td>
                                 </tr>
                             {{else}}
                                 <tr>
-                                    <td colspan="7">No hay clientes disponibles.</td>
+                                    <td colspan="7">No hay productos disponibles.</td>
                                 </tr>
                             {{/each}}
                         </tbody>

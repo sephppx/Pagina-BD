@@ -16,16 +16,18 @@ db.serialize(() => {
         Nombre VARCHAR(100) NOT NULL,
         Telefono VARCHAR(20) UNIQUE,
         Direccion VARCHAR(200),
-        Fecha_Registro DATE NOT NULL
+        Fecha_Registro DATE NOT NULL,
+        Email_Cliente VARCHAR(100) UNIQUE
     )`);
 
     db.run(`CREATE TABLE IF NOT EXISTS Productos (
         ID_Producto INTEGER PRIMARY KEY AUTOINCREMENT,
         Nombre_Producto VARCHAR(100) NOT NULL,
         Categoria VARCHAR(50),
-        Precio DECIMAL(10, 2) NOT NULL,
+        Precio DECIMAL(10, 4) NOT NULL,
         Stock INT NOT NULL,
         Descripcion TEXT,
+        Costo DECIMAL(10,2) NOT NULL DEFAULT 0.00,
         ID_Proveedor INT,
         FOREIGN KEY (ID_Proveedor) REFERENCES Proveedor(ID_Proveedor)
         )`);
@@ -35,6 +37,7 @@ db.serialize(() => {
         Fecha DATE NOT NULL,
         Total DECIMAL(10, 2) NOT NULL,
         Metodo_Pago VARCHAR(50),
+        Estado VARCHAR(20) DEFAULT 'Activa',
         ID_Cliente INT,
         FOREIGN KEY (ID_Cliente) REFERENCES Clientes(ID_Clientes)
         )`);
@@ -43,14 +46,16 @@ db.serialize(() => {
         ID_Proveedor INTEGER PRIMARY KEY AUTOINCREMENT,
         Nombre_Proveedor VARCHAR(100) NOT NULL,
         Direccion VARCHAR(200),
-        Telefono VARCHAR(20),
+        Telefono VARCHAR(30),
         Email VARCHAR(100)
         )`);
     
-    db.run(`CREATE TABLE IF NOT EXISTS Orden_Compra (
+    db.run(`CREATE TABLE IF NOT EXISTS OrdenCompra (
         ID_Orden INTEGER PRIMARY KEY AUTOINCREMENT,
         Fecha DATE NOT NULL,
         Total DECIMAL(10, 2) NOT NULL,
+        Fecha_Entrega DATE,
+        Estado VARCHAR(20) DEFAULT 'Pendiente',
         ID_Proveedor INT,
         FOREIGN KEY (ID_Proveedor) REFERENCES Proveedor(ID_Proveedor)
         )`);
@@ -58,14 +63,14 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS Devolucion (
         ID_Devolucion INTEGER PRIMARY KEY AUTOINCREMENT,
         Fecha DATE NOT NULL,
-        Cantidad_Devuelta INT NOT NULL,
+        Cantidad INT NOT NULL,
         Motivo TEXT,
         ID_Cliente INT,
         ID_Producto INT,
         ID_Orden,
-        FOREIGN KEY (ID_Cliente) REFERENCES Cliente(ID_Cliente),
-        FOREIGN KEY (ID_CLiente) REFERENCES Producto(ID_Producto),
-        FOREIGN KEY (ID_Orden) REFERENCES Orden_Compra(ID_Orden)
+        FOREIGN KEY (ID_Cliente) REFERENCES Clientes(ID_Cliente),
+        FOREIGN KEY (ID_Producto) REFERENCES Productos(ID_Producto),
+        FOREIGN KEY (ID_Orden) REFERENCES OrdenCompra(ID_Orden)
         )`);
 
     db.run(`CREATE TABLE IF NOT EXISTS Promocion (
@@ -79,16 +84,17 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS Venta_Producto (
         ID_Venta INT,
         ID_Producto INT,
+        Cantidad INT NOT NULL DEFAULT 1,
         PRIMARY KEY (ID_Venta, ID_Producto),
         FOREIGN KEY (ID_Venta) REFERENCES Venta(ID_Venta),
-        FOREIGN KEY (ID_Producto) REFERENCES Producto(ID_Producto)
+        FOREIGN KEY (ID_Producto) REFERENCES Productos(ID_Producto)
         )`);
     
     db.run(`CREATE TABLE IF NOT EXISTS Producto_Promocion (
         ID_Producto INT,
         ID_Promocion INT,
         PRIMARY KEY (ID_Producto, ID_Promocion),
-        FOREIGN KEY (ID_Producto) REFERENCES Producto(ID_Producto),
+        FOREIGN KEY (ID_Producto) REFERENCES Productos(ID_Producto),
         FOREIGN KEY (ID_Promocion) REFERENCES Promocion(ID_Promocion)
         )`);
     
@@ -96,15 +102,17 @@ db.serialize(() => {
         ID_Orden INT,
         ID_Producto INT,
         PRIMARY KEY (ID_Orden, ID_Producto),
-        FOREIGN KEY (ID_Orden) REFERENCES Orden_Compra(ID_Orden),
+        FOREIGN KEY (ID_Orden) REFERENCES OrdenCompra(ID_Orden),
         FOREIGN KEY (ID_Producto) REFERENCES Producto(ID_Producto) 
         )`);
+
+    
 });
 
-export function agregarCliente(nombre, telefono, direccion, fechaRegistro, callback) {
-    const sql = `INSERT INTO Clientes (Nombre, Telefono, Direccion, Fecha_Registro)
-                 VALUES (?, ?, ?, ?)`;
-    db.run(sql, [nombre, telefono, direccion, fechaRegistro], function(err) {
+export function agregarCliente(nombre, telefono, direccion, fechaRegistro, email_cliente, callback) {
+    const sql = `INSERT INTO Clientes (Nombre, Telefono, Direccion, Fecha_Registro, Email_Cliente)
+                 VALUES (?, ?, ?, ?, ?)`;
+    db.run(sql, [nombre, telefono, direccion, fechaRegistro, email_cliente], function(err) {
         if (err) {
             console.error('Error al agregar cliente:', err.message);
             callback(err, null);
@@ -116,7 +124,7 @@ export function agregarCliente(nombre, telefono, direccion, fechaRegistro, callb
 }
 
 export function agregarProveedor(nombre, direccion, telefono, email, callback) {
-    const sql = `INSERT INTO Clientes (Nombre_Proveedor, Direccion, Telefono, Email)
+    const sql = `INSERT INTO Proveedor (Nombre_Proveedor, Direccion, Telefono, Email)
                  VALUES (?, ?, ?, ?)`;
     db.run(sql, [nombre, direccion, telefono, email], function(err) {
         if (err) {
@@ -129,10 +137,10 @@ export function agregarProveedor(nombre, direccion, telefono, email, callback) {
     });
 }
 
-export function agregarProducto(nombre, categoria, precio, stock, descripcion, id_proveedor, callback) {
-    const sql = `INSERT INTO Productos (Nombre_Producto, Categoria, Precio, Stock, Descripcion, ID_Proveedor)
+export function agregarProducto(nombre, categoria, precio, stock, descripcion, costo, id_proveedor, callback) {
+    const sql = `INSERT INTO Productos (Nombre_Producto, Categoria, Precio, Stock, Descripcion, Costo, ID_Proveedor)
                  VALUES (?, ?, ?, ?, ?, ?)`;
-    db.run(sql, [nombre, categoria, precio, stock, descripcion, id_proveedor], function(err) {
+    db.run(sql, [nombre, categoria, precio, stock, descripcion, costo, id_proveedor], function(err) {
         if (err) {
             console.error('Error al agregar producto:', err.message);
             callback(err, null);
@@ -143,10 +151,10 @@ export function agregarProducto(nombre, categoria, precio, stock, descripcion, i
     });
 }
 
-export function agregarVenta(fecha, total, metodo_pago, id_cliente, callback) {
-    const sql = `INSERT INTO Venta (Fecha, Total, Metodo_Pago, ID_Cliente)
-                 VALUES (?, ?, ?, ?)`;
-    db.run(sql, [fecha, total, metodo_pago, id_cliente], function(err) {
+export function agregarVenta(fecha, total, metodo_pago, estado, id_cliente, callback) {
+    const sql = `INSERT INTO Venta (Fecha, Total, Metodo_Pago, ID_Cliente, Estado)
+                 VALUES (?, ?, ?, ?, ?)`;
+    db.run(sql, [fecha, total, metodo_pago, estado, id_cliente], function(err) {
         if (err) {
             console.error('Error al agregar la venta:', err.message);
             callback(err, null);
@@ -157,10 +165,10 @@ export function agregarVenta(fecha, total, metodo_pago, id_cliente, callback) {
     });
 }
 
-export function agregarOrdenCompra(fecha, total, id_proveedor, callback) {
-    const sql = `INSERT INTO Orden_Compra (Fecha, Total, ID_Proveedor)
+export function agregarOrdenCompra(fecha, total, id_proveedor, fecha_entrega, estado, callback) {
+    const sql = `INSERT INTO OrdenCompra (Fecha, Total, ID_Proveedor, Fecha_Entrega, estado)
                  VALUES (?, ?, ?)`;
-    db.run(sql, [fecha, total, id_proveedor], function(err) {
+    db.run(sql, [fecha, total, id_proveedor, fecha_entrega, estado], function(err) {
         if (err) {
             console.error('Error al agregar la venta:', err.message);
             callback(err, null);
@@ -172,10 +180,10 @@ export function agregarOrdenCompra(fecha, total, id_proveedor, callback) {
 }
 
 
-export function agregarDevolucion(fecha, cantidad_devuelta, motivo, id_cliente, id_producto, id_orden) {
-    const sql = `INSERT INTO Devolucion (Fecha, Cantidad_Devuelta, Motivo, ID_Cliente, ID_Producto, ID_Orden)
+export function agregarDevolucion(fecha, cantidad, motivo, id_cliente, id_producto, id_orden) {
+    const sql = `INSERT INTO Devolucion (Fecha, Cantidad, Motivo, ID_Cliente, ID_Producto, ID_Orden)
                  VALUES (?, ?, ?, ?, ?, ?)`;
-    db.run(sql, [fecha, cantidad_devuelta, motivo, id_cliente, id_producto, id_orden ], function(err) {
+    db.run(sql, [fecha, cantidad, motivo, id_cliente, id_producto, id_orden ], function(err) {
         if (err) {
             console.error('Error al agregar la devolucion:', err.message);
             callback(err, null);
@@ -187,7 +195,7 @@ export function agregarDevolucion(fecha, cantidad_devuelta, motivo, id_cliente, 
 }
 
 export function agregarPromocion(descripcion, fecha_inicio, fecha_fin, descuento) {
-    const sql = `INSERT INTO Promocion (Descripcion, Fecha_Inico, Fecha_Fin, Descuento)
+    const sql = `INSERT INTO Promocion (Descripcion, Fecha_Inicio, Fecha_Fin, Descuento)
                  VALUES (?, ?, ?, ?)`;
     db.run(sql, [descripcion, fecha_inicio, fecha_fin, descuento], function(err) {
         if (err) {
@@ -201,10 +209,10 @@ export function agregarPromocion(descripcion, fecha_inicio, fecha_fin, descuento
 }
 
 
-export function agregarVenta_Producto(id_venta, id_producto) {
-    const sql = `INSERT INTO Promocion (ID_Venta, ID_Producto)
+export function agregarVenta_Producto(id_venta, id_producto, cantidad) {
+    const sql = `INSERT INTO Venta_Producto (ID_Venta, ID_Producto, Cantidad)
                  VALUES (?, ?)`;
-    db.run(sql, [id_venta, id_producto], function(err) {
+    db.run(sql, [id_venta, id_producto, cantidad], function(err) {
         if (err) {
             console.error('Error al agregar la promocion:', err.message);
             callback(err, null);
@@ -230,7 +238,7 @@ export function agregarProducto_Promocion(id_producto, id_promocion) {
 }
 
 export function agregarOrden_Producto(id_orden, id_producto) {
-    const sql = `INSERT INTO Orden (ID_Orden, ID_Producto)
+    const sql = `INSERT INTO Orden_Producto (ID_Orden, ID_Producto)
                  VALUES (?, ?)`;
     db.run(sql, [id_orden, id_producto], function(err) {
         if (err) {

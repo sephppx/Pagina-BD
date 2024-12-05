@@ -48,23 +48,23 @@ app.get('/', (req, res) => {
 // AGREGAR LOS CLIENTES A LA BASE DE DATOS
  db.serialize(() => {
   const clientes = [
-     { nombre: 'Natan Ramirez', telefono: '987654321', direccion: 'Ejército 441', fechaRegistro: '2024-12-02' },
-     { nombre: 'Cristóbal Sepúlveda', telefono: '923456789', direccion: 'Vergara 424', fechaRegistro: '2024-10-02' },
-     { nombre: 'Felipe Bustos', telefono: '956789123', direccion: 'Toesca 1', fechaRegistro: '2024-11-01' },
-     { nombre: 'Jeffery Williams', telefono: '992178728', direccion: 'Santiago 21', fechaRegistro: '2024-11-23' },
-     { nombre: 'Roberto Vazquez', telefono: '736152683', direccion: 'Estacion Central 3', fechaRegistro: '2024-11-16' },
-     { nombre: 'Sara Maldonado', telefono: '244666366', direccion: 'La Florida 33', fechaRegistro: '2024-11-01' },
-      { nombre: 'Francisca Gonzalez', telefono: '132323327', direccion: 'Quinta Normal 234', fechaRegistro: '2024-11-22' },
-      { nombre: 'Sebastian Hurtado', telefono: '197137154', direccion: 'Maipú 667', fechaRegistro: '2024-11-02' },
-      { nombre: 'Alexis Sanchez', telefono: '944421436', direccion: 'Puente Alto 34', fechaRegistro: '2024-11-30' },
-      { nombre: 'Carmen Delgado', telefono: '417686632', direccion: 'Providencia 23', fechaRegistro: '2024-12-01' }
+     { nombre: 'Natan Ramirez', telefono: '987654321', direccion: 'Ejército 441', fechaRegistro: '2024-12-02', email_cliente: 'natan@gmail.com' },
+     { nombre: 'Cristóbal Sepúlveda', telefono: '923456789', direccion: 'Vergara 424', fechaRegistro: '2024-10-02', email_cliente: 'cris@gmail.com' },
+     { nombre: 'Felipe Bustos', telefono: '956789123', direccion: 'Toesca 1', fechaRegistro: '2024-11-01', email_cliente: 'felipe@gmail.com' },
+     { nombre: 'Jeffery Williams', telefono: '992178728', direccion: 'Santiago 21', fechaRegistro: '2024-11-23', email_cliente: 'jeff@gmail.com' },
+     { nombre: 'Roberto Vazquez', telefono: '736152683', direccion: 'Estacion Central 3', fechaRegistro: '2024-11-16', email_cliente: 'roberto@gmail.com'},
+     { nombre: 'Sara Maldonado', telefono: '244666366', direccion: 'La Florida 33', fechaRegistro: '2024-11-01' , email_cliente: 'sara@gmail.com'},
+      { nombre: 'Francisca Gonzalez', telefono: '132323327', direccion: 'Quinta Normal 234', fechaRegistro: '2024-11-22' , email_cliente: 'francisca@gmail.com'},
+      { nombre: 'Sebastian Hurtado', telefono: '197137154', direccion: 'Maipú 667', fechaRegistro: '2024-11-02', email_cliente: 'sebastian@gmail.com' },
+      { nombre: 'Alexis Sanchez', telefono: '944421436', direccion: 'Puente Alto 34', fechaRegistro: '2024-11-30', email_cliente: 'alexis@gmail.com' },
+      { nombre: 'Carmen Delgado', telefono: '417686632', direccion: 'Providencia 23', fechaRegistro: '2024-12-01', email_cliente: 'carmen@gmail.com' }
 
   ];
 
   clientes.forEach(cliente => {
      
-    const sql = `INSERT OR IGNORE INTO Clientes (Nombre, Telefono, Direccion, Fecha_Registro) VALUES (?, ?, ?, ?)`;
-    db.run(sql, [cliente.nombre, cliente.telefono, cliente.direccion, cliente.fechaRegistro], function(err) {
+    const sql = `INSERT OR IGNORE INTO Clientes (Nombre, Telefono, Direccion, Fecha_Registro, Email_Cliente) VALUES (?, ?, ?, ?, ?)`;
+    db.run(sql, [cliente.nombre, cliente.telefono, cliente.direccion, cliente.fechaRegistro, cliente.email_cliente], function(err) {
        if (err) {
            console.error(`Error al agregar cliente ${cliente.nombre}:`, err.message);
          } else if (this.changes > 0) {
@@ -75,6 +75,8 @@ app.get('/', (req, res) => {
     });
 });
 });
+
+
 
 // AGREGAR UN PROVEEDOR A LA BASE DE DATOS
 db.serialize(() => {
@@ -98,51 +100,52 @@ db.serialize(() => {
         }
     });
 });
-  
 });
 
 
 // AGREGAR LOS PRODUCTOS DE LA BASE DE DATOS
 db.serialize(() => {
 const producto = [
-  {nombre:'Hoodie sp5der', categoria: 'Hoodies', precio: '20000', stock: '20', descripcion: 'Hoodie de la ultima coleccion de la marca.', id_proveedor: '1'},
-  {nombre:'Pantalón de buzo sp5der', categoria: 'Pantalones', precio: '15000', stock: '20', descripcion: 'Pantalaon de la ultima coleccion de la marca.', id_proveedor: '1'},
-  {nombre:'Polera sp5der', categoria: 'Poleras', precio: '10000', stock: '30', descripcion: 'Polera de la ultima colecccion de la marca.', id_proveedor: '1'},
-  {nombre:'Polera CHROME HEARTS', categoria: 'Poleras', precio: '15000', stock: '40', descripcion: 'Polera vintage de la marca.', id_proveedor: '2'},
-  {nombre:'Lentes CHROME HEARTS', categoria: 'Accesorios', precio: '25000', stock: '10', descripcion: 'Lentes de edicion limitada.', id_proveedor: '2'},
-  {nombre:'Beannie CHROME HEARTS', categoria: 'Gorros', precio: '12000', stock: '15', descripcion: 'Beannie de algodón', id_proveedor: '2'},
-  {nombre:'Pantalón cargo Corteiz', categoria: 'Pantalones', precio: '25000', stock: '20', descripcion: 'Pantalon de estilo cargo de la ultima coleccion de Corteiz', id_proveedor: '3'},
-  {nombre:'Polerón Corteiz', categoria: 'Chaquetas', precio: '35000', stock: '5', descripcion: 'Poleron Corteiz de la colaboracion con Central Cee', id_proveedor: '3'},
-  {nombre:'Chaqueta Corteiz', categoria: 'Chaquetas', precio: '20000', stock: '10', descripcion: 'Chaqueta de la colaboración con Central Cee', id_proveedor: '3'},
-  {nombre:'Mocasines Zara', categoria: 'Zapatos y zapatillas', precio: '45000', stock: '12', descripcion: 'Mocasines para cualquier ocasión', id_proveedor: '4'},
-  {nombre:'Botas Zara', categoria: 'Zapatos y zapatillas', precio: '50000', stock: '12', descripcion: 'Botas de cuero de la ultima coleccion de la marca', id_proveedor: '4'},
-  {nombre:'Zapatilas Zara', categoria: 'Zapatos y zapatillas', precio: '20000', stock: '20', descripcion: 'Zapatillas deportivas', id_proveedor: '4'},
-  {nombre:'Gorra Atlanta Braves New Era', categoria: 'Gorros', precio: '20000', stock: '20', descripcion: 'Gorra de el equipo de beisbol de Atlanta', id_proveedor: '5'},
-  {nombre:'Gorra Cincinatti Reds New Era', categoria: 'Gorros', precio: '20000', stock: '20', descripcion: 'Gorra del mejor equipo actual de la MLB', id_proveedor: '5'},
-  {nombre:'Gorra Arizona DiamonBacks', categoria: 'Gorros', precio: '20000', stock: '20', descripcion: 'Gorra de el equipo de Arizona', id_proveedor: '5'},
+  {nombre:'Hoodie sp5der', categoria: 'Hoodies', precio: '20000', stock: '20', descripcion: 'Hoodie de la ultima coleccion de la marca.', costo: '6000', id_proveedor: '1'},
+  {nombre:'Pantalón de buzo sp5der', categoria: 'Pantalones', precio: '15000', stock: '20', descripcion: 'Pantalaon de la ultima coleccion de la marca.', costo: '5000', id_proveedor: '1'},
+  {nombre:'Polera sp5der', categoria: 'Poleras', precio: '10000', stock: '30', descripcion: 'Polera de la ultima colecccion de la marca.', costo: '3000', id_proveedor: '1'},
+  {nombre:'Polera CHROME HEARTS', categoria: 'Poleras', precio: '15000', stock: '40', descripcion: 'Polera vintage de la marca.', costo: '4000', id_proveedor: '2'},
+  {nombre:'Lentes CHROME HEARTS', categoria: 'Accesorios', precio: '25000', stock: '10', descripcion: 'Lentes de edicion limitada.', costo: '5000', id_proveedor: '2'},
+  {nombre:'Beannie CHROME HEARTS', categoria: 'Gorros', precio: '12000', stock: '15', descripcion: 'Beannie de algodón', costo: '2400', id_proveedor: '2'},
+  {nombre:'Pantalón cargo Corteiz', categoria: 'Pantalones', precio: '25000', stock: '20', descripcion: 'Pantalon de estilo cargo de la ultima coleccion de Corteiz', costo: '5000', id_proveedor: '3'},
+  {nombre:'Polerón Corteiz', categoria: 'Chaquetas', precio: '35000', stock: '5', descripcion: 'Poleron Corteiz de la colaboracion con Central Cee', costo: '7000', id_proveedor: '3'},
+  {nombre:'Chaqueta Corteiz', categoria: 'Chaquetas', precio: '20000', stock: '10', descripcion: 'Chaqueta de la colaboración con Central Cee', costo: '4000', id_proveedor: '3'},
+  {nombre:'Mocasines Zara', categoria: 'Zapatos y zapatillas', precio: '45000', stock: '12', descripcion: 'Mocasines para cualquier ocasión', costo: '8000', id_proveedor: '4'},
+  {nombre:'Botas Zara', categoria: 'Zapatos y zapatillas', precio: '50000', stock: '12', descripcion: 'Botas de cuero de la ultima coleccion de la marca', costo: '10000', id_proveedor: '4'},
+  {nombre:'Zapatilas Zara', categoria: 'Zapatos y zapatillas', precio: '20000', stock: '20', descripcion: 'Zapatillas deportivas', costo: '4000', id_proveedor: '4'},
+  {nombre:'Gorra Atlanta Braves New Era', categoria: 'Gorros', precio: '20000', stock: '20', descripcion: 'Gorra de el equipo de beisbol de Atlanta', costo: '4000', id_proveedor: '5'},
+  {nombre:'Gorra Cincinatti Reds New Era', categoria: 'Gorros', precio: '20000', stock: '20', descripcion: 'Gorra del mejor equipo actual de la MLB', costo: '4000', id_proveedor: '5'},
+  {nombre:'Gorra Arizona DiamonBacks New Era', categoria: 'Gorros', precio: '20000', stock: '20', descripcion: 'Gorra de el equipo de Arizona', costo: '4000', id_proveedor: '5'},
 ];
 
 producto.forEach(producto => {
-  const sql = `INSERT OR IGNORE INTO Productos (Nombre_Producto, Categoria, Precio, Stock, Descripcion, ID_Proveedor) VALUES (?, ?, ?, ?, ?, ?)`;
-  db.run(sql, [producto.nombre, producto.categoria, producto.precio, producto.stock, producto.descripcion, producto.id_proveedor], function(err) {   
+  const sql = `INSERT OR IGNORE INTO Productos (Nombre_Producto, Categoria, Precio, Stock, Descripcion, Costo, ID_Proveedor) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+  db.run(sql, [producto.nombre, producto.categoria, producto.precio, producto.stock, producto.descripcion, producto.costo, producto.id_proveedor], function(err) {   
           console.log(`Producto ${producto.nombre} agregado`);
   });
 });
 });
 
+
+
 //agregar ventas
 db.serialize(() => {
   const venta = [
-    {fecha:'2024-12-02', total: '35000', metodo_pago: 'Débito', id_cliente: '1'},
-    {fecha:'2024-10-21', total: '65000', metodo_pago: 'Efectivo', id_cliente: '2'},
-    {fecha:'2024-11-10', total: '45000', metodo_pago: 'Efectivo', id_cliente: '3'},
-    {fecha:'2024-11-23', total: '60000', metodo_pago: 'Débito', id_cliente: '4'},
-    {fecha:'2024-11-25', total: '50000', metodo_pago: 'Débito', id_cliente: '5'},
-    {fecha:'2024-11-02', total: '57000', metodo_pago: 'Crédito', id_cliente: '6'},
-    {fecha:'2024-12-02', total: '55000', metodo_pago: 'Débito', id_cliente: '7'},
-    {fecha:'2024-11-05', total: '70000', metodo_pago: 'Crédito', id_cliente: '8'},
-    {fecha:'2024-11-30', total: '52000', metodo_pago: 'Débito', id_cliente: '9'},
-    {fecha:'2024-12-02', total: '80000', metodo_pago: 'Débito', id_cliente: '10'},
+    {fecha:'2024-12-02', total: '35000', metodo_pago: 'Débito', estado: 'Activa', id_cliente: '1'},
+    {fecha:'2024-10-21', total: '65000', metodo_pago: 'Efectivo', estado: 'Activa', id_cliente: '2'},
+    {fecha:'2024-11-10', total: '45000', metodo_pago: 'Efectivo', estado: 'Activa',  estado: '', id_cliente: '3'},
+    {fecha:'2024-11-23', total: '60000', metodo_pago: 'Débito', estado: 'Cancelada', id_cliente: '4'},
+    {fecha:'2024-11-25', total: '50000', metodo_pago: 'Débito', estado: 'Activa', id_cliente: '5'},
+    {fecha:'2024-11-02', total: '57000', metodo_pago: 'Crédito', estado: 'Cancelada', id_cliente: '6'},
+    {fecha:'2024-12-02', total: '55000', metodo_pago: 'Débito', estado: 'Activa', id_cliente: '7'},
+    {fecha:'2024-11-05', total: '70000', metodo_pago: 'Crédito', estado: 'Activa', id_cliente: '8'},
+    {fecha:'2024-11-30', total: '52000', metodo_pago: 'Débito', estado: 'Activa', id_cliente: '9'},
+    {fecha:'2024-12-02', total: '80000', metodo_pago: 'Débito', estado: 'Activa', id_cliente: '10'},
 
   ]
 
@@ -150,43 +153,46 @@ db.serialize(() => {
 venta.forEach(venta => {
   const sql = `INSERT OR IGNORE INTO Venta (Fecha, Total, Metodo_Pago, ID_Cliente) VALUES (?, ?, ?, ?)`;
   db.run(sql, [venta.fecha, venta.total, venta.metodo_pago, venta.id_cliente], function(err) {   
-          console.log(`Venta ${venta.fecha} agregado`);
+          console.log(`Venta ${venta.lastID} agregado`);
   });
 });
 });
 
+
 //agregar ordenes de compra
 db.serialize(() => {
-  const orden_compra = [
-    {fecha: '2024-10-01', total: '200000', id_proveedor: '1'},
-    {fecha: '2024-09-30', total: '200000', id_proveedor: '2'},
-    {fecha: '2024-11-01', total: '150000', id_proveedor: '3'},
-    {fecha: '2024-11-01', total: '150000', id_proveedor: '4'},
-    {fecha: '2024-12-01', total: '100000', id_proveedor: '5'},
+  const ordencompra = [
+    {fecha: '2024-10-01', total: '200000', fecha_entrega: '2024-10-20', estado: 'Entregada', id_proveedor: '1'},
+    {fecha: '2024-09-30', total: '200000', fecha_entrega: '2024-10-01', estado: 'Entregada', id_proveedor: '2'},
+    {fecha: '2024-11-01', total: '150000', fecha_entrega: '2024-11-05', estado: 'Entregada', id_proveedor: '3'},
+    {fecha: '2024-11-01', total: '150000', fecha_entrega: '2024-11-08', estado: 'Entregada', id_proveedor: '4'},
+    {fecha: '2024-12-01', total: '100000', fecha_entrega: 'NULL', estado: 'Pendiente', id_proveedor: '5'},
   ]
 
-orden_compra.forEach(orden_compra=> {
-const sql = `INSERT OR IGNORE INTO Orden_Compra (Fecha, Total, ID_Proveedor) VALUES (?, ?, ?)`;
-db.run(sql, [orden_compra.fecha, orden_compra.total, orden_compra.id_proveedor], function(err) {   
-  console.log(` orden ${orden_compra.id} agregado`);
+ordencompra.forEach(ordencompra=> {
+const sql = `INSERT OR IGNORE INTO OrdenCompra (Fecha, Total, Fecha_Entrega, Estado, ID_Proveedor) VALUES (?, ?, ?, ?, ?)`;
+db.run(sql, [ordencompra.fecha, ordencompra.total, ordencompra.fecha_entrega, ordencompra.estado, ordencompra.id_proveedor], function(err) {   
+  console.log(`Orden ${ordencompra.id} agregado`);
 });
 })
 });
 
+
+
 //agregar devoluciones
 db.serialize(() => {
   const devolucion = [
-    {fecha: '2024-12-01', cantidad_devuelta: '20000', motivo: 'Producto en mal estado', id_cliente: '3', id_producto: '13', id_orden: 'NULL'},
-    {fecha: '2024-12-01', cantidad_devuelta: '15000', motivo: 'Producto erróneo', id_cliente: '3', id_producto: '3', id_orden: 'NULL'},
-    {fecha: '2024-12-02', cantidad_devuelta: '200000', motivo: 'Productos erróneos', id_cliente: 'NULL', id_producto: 'NULL', id_orden: '2'},
-    {fecha: '2024-11-30', cantidad_devuelta: '15000', motivo: 'Garantía', id_cliente: '6', id_producto: '4', id_orden: 'NULL'},
-    {fecha: '2024-11-27', cantidad_devuelta: '35000', motivo: '--', id_cliente: '3', id_producto: '8', id_orden: 'NULL'},
+    {fecha: '2024-12-01', cantidad: '20000', motivo: 'Producto en mal estado', id_cliente: '3', id_producto: '13', id_orden: 'NULL'},
+    {fecha: '2024-12-01', cantidad: '15000', motivo: 'Producto erróneo', id_cliente: '3', id_producto: '3', id_orden: 'NULL'},
+    {fecha: '2024-12-02', cantidad: '200000', motivo: 'Productos erróneos', id_cliente: 'NULL', id_producto: 'NULL', id_orden: '2'},
+    {fecha: '2024-11-30', cantidad: '15000', motivo: 'Garantía', id_cliente: '6', id_producto: '4', id_orden: 'NULL'},
+    {fecha: '2024-11-27', cantidad: '35000', motivo: '--', id_cliente: '3', id_producto: '8', id_orden: 'NULL'},
 
   ]
 
 devolucion.forEach(devolucion=> {
-  const sql = `INSERT OR IGNORE INTO Devolucion (Fecha, Cantidad_Devuelta, Motivo, ID_Cliente, ID_Producto, ID_Orden) VALUES (?, ?, ?, ?, ?, ?)`;
-  db.run(sql, [devolucion.fecha, devolucion.cantidad_devuelta, devolucion.motivo, devolucion.id_cliente, devolucion.id_producto, devolucion.id_orden], function(err) {   
+  const sql = `INSERT OR IGNORE INTO Devolucion (Fecha, Cantidad, Motivo, ID_Cliente, ID_Producto, ID_Orden) VALUES (?, ?, ?, ?, ?, ?)`;
+  db.run(sql, [devolucion.fecha, devolucion.cantidad, devolucion.motivo, devolucion.id_cliente, devolucion.id_producto, devolucion.id_orden], function(err) {   
     console.log(`Devolucion ${devolucion.fecha} agregado con ID: ${this.lastID}`);
   });
 });  
@@ -207,46 +213,49 @@ db.serialize(() => {
   
 })
 
+
+
 //agregar venta producto
 db.serialize(() => {
 const venta_producto = [
-  {id_venta: '1', id_producto: '1'},
-  {id_venta: '1', id_producto: '2'},
-  {id_venta: '2', id_producto: '1'},
-  {id_venta: '2', id_producto: '2'},
-  {id_venta: '2', id_producto: '3'},
-  {id_venta: '2', id_producto: '13'},
-  {id_venta: '3', id_producto: '3'},
-  {id_venta: '3', id_producto: '8'},
-  {id_venta: '4', id_producto: '11'},
-  {id_venta: '4', id_producto: '3'},
-  {id_venta: '5', id_producto: '11'},
-  {id_venta: '6', id_producto: '2'},
-  {id_venta: '6', id_producto: '6'},
-  {id_venta: '6', id_producto: '15'},
-  {id_venta: '6', id_producto: '3'},
-  {id_venta: '7', id_producto: '2'},
-  {id_venta: '7', id_producto: '2'},
-  {id_venta: '7', id_producto: '3'},
-  {id_venta: '7', id_producto: '4'},
-  {id_venta: '8', id_producto: '10'},
-  {id_venta: '8', id_producto: '5'},
-  {id_venta: '9', id_producto: '6'},
-  {id_venta: '9', id_producto: '12'},
-  {id_venta: '8', id_producto: '14'},
-  {id_venta: '10', id_producto:'11'},
-  {id_venta: '10', id_producto: '13'},
-  {id_venta: '10', id_producto: '3'}
+  {id_venta: '1', id_producto: '1', cantidad:'1'},
+  {id_venta: '1', id_producto: '2', cantidad:'1'},
+  {id_venta: '2', id_producto: '1', cantidad:'1'},
+  {id_venta: '2', id_producto: '2', cantidad:'1'},
+  {id_venta: '2', id_producto: '3', cantidad:'1'},
+  {id_venta: '2', id_producto: '13', cantidad:'1'},
+  {id_venta: '3', id_producto: '3', cantidad:'1'},
+  {id_venta: '3', id_producto: '8', cantidad:'1'},
+  {id_venta: '4', id_producto: '11', cantidad:'1'},
+  {id_venta: '4', id_producto: '3', cantidad:'1'},
+  {id_venta: '5', id_producto: '11', cantidad:'1'},
+  {id_venta: '6', id_producto: '2', cantidad:'1'},
+  {id_venta: '6', id_producto: '6', cantidad:'1'},
+  {id_venta: '6', id_producto: '15', cantidad:'1'},
+  {id_venta: '6', id_producto: '3', cantidad:'1'},
+  {id_venta: '7', id_producto: '2', cantidad:'1'},
+  {id_venta: '7', id_producto: '2', cantidad:'1'},
+  {id_venta: '7', id_producto: '3', cantidad:'1'},
+  {id_venta: '7', id_producto: '4', cantidad:'1'},
+  {id_venta: '8', id_producto: '10', cantidad:'1'},
+  {id_venta: '8', id_producto: '5', cantidad:'1'},
+  {id_venta: '9', id_producto: '6', cantidad:'1'},
+  {id_venta: '9', id_producto: '12', cantidad:'1'},
+  {id_venta: '8', id_producto: '14', cantidad:'1'},
+  {id_venta: '10', id_producto:'11', cantidad:'1'},
+  {id_venta: '10', id_producto: '13', cantidad:'1'},
+  {id_venta: '10', id_producto: '3', cantidad:'1'}
  
 ]
 
 venta_producto.forEach(venta_producto=> {
-  const sql = `INSERT OR IGNORE INTO Venta_Producto (ID_Venta, ID_Producto ) VALUES (?, ?)`;
-  db.run(sql, [venta_producto.id_venta, venta_producto.id_producto], function(err) {   
+  const sql = `INSERT OR IGNORE INTO Venta_Producto (ID_Venta, ID_Producto, Cantidad) VALUES (?, ?, ?)`;
+  db.run(sql, [venta_producto.id_venta, venta_producto.id_producto, venta_producto.cantidad], function(err) {   
     console.log(`Agregado con ID: ${this.lastID}`);
   });
 });  
 })
+ 
 
 //agrega producto promocion
 db.serialize(() => {
@@ -296,6 +305,7 @@ orden_producto.forEach(orden_producto=> {
 })
 */
 
+
 //muestra todos los clientes
 app.get('/clientes', (req, res) => {
   db.all('SELECT * FROM Clientes', [], (err, rows) => {
@@ -323,7 +333,7 @@ app.get('/Adminprod', (req, res) => {
           return res.status(500).send('Error al obtener los clientes');
       }
      
-      res.render('adminprod', { productos: rows });
+      res.render('Adminprod', { productos: rows });
   });
 });
 
@@ -344,7 +354,7 @@ app.get('/formproveedor', async (req, res) => {
 app.get('/venta', (req, res) => {
   db.all('SELECT * FROM venta', [], (err, rows) => {
       if (err) {
-          return res.status(500).send('Error al obtener los clientes');
+          return res.status(500).send('Error al obtener las ventas');
       }
       
       res.render('venta', { productos: rows });
@@ -356,7 +366,7 @@ app.get('/formventa', async (req, res) => {
 });
 
 app.get('/orden', (req, res) => {
-  db.all('SELECT * FROM Orden_Compra', [], (err, rows) => {
+  db.all('SELECT * FROM OrdenCompra', [], (err, rows) => {
       if (err) {
           return res.status(500).send('Error al obtener los clientes');
       }
@@ -372,7 +382,7 @@ app.get('/formorden', async (req, res) => {
 app.get('/devolucion', (req, res) => {
   db.all('SELECT * FROM devolucion', [], (err, rows) => {
       if (err) {
-          return res.status(500).send('Error al obtener los clientes');
+          return res.status(500).send('Error al obtener las devoluciones');
       }
      
       res.render('devolucion', { productos: rows });
@@ -436,7 +446,7 @@ app.get('/formularioedit', async (req, res) => {
   }
 
   try {
-    const query = 'SELECT ID_Producto, Nombre_Producto, Categoria, Precio, Stock, Descripcion, ID_Proveedor FROM Productos WHERE ID_Producto = ?';
+    const query = 'SELECT ID_Producto, Nombre_Producto, Categoria, Precio, Stock, Descripcion, Costo, ID_Proveedor FROM Productos WHERE ID_Producto = ?';
     db.get(query, [id], (err, row) => {
       if (err) {
         console.error("Error al ejecutar la consulta:", err);
@@ -461,7 +471,7 @@ app.get('/formeditcliente', async (req, res) => {
   }
 
   try {
-    const query = 'SELECT ID_Cliente, Nombre, Telefono, Direccion, Fecha_Registro FROM Clientes WHERE ID_Cliente = ?';
+    const query = 'SELECT ID_Cliente, Nombre, Telefono, Direccion, Fecha_Registro, Email_Cliente FROM Clientes WHERE ID_Cliente = ?';
     db.get(query, [id], (err, row) => {
       if (err) {
         console.error("Error al ejecutar la consulta:", err);
@@ -486,7 +496,7 @@ app.get('/formeditdevolucion', async (req, res) => {
   }
 
   try {
-    const query = 'SELECT ID_Devolucion, Fecha, Cantidad_Devuelta, Motivo, ID_Cliente, ID_Producto, ID_Orden FROM Devolucion WHERE ID_Devolucion = ?';
+    const query = 'SELECT ID_Devolucion, Fecha, Cantidad, Motivo, ID_Cliente, ID_Producto, ID_Orden FROM Devolucion WHERE ID_Devolucion = ?';
     db.get(query, [id], (err, row) => {
       if (err) {
         console.error("Error al ejecutar la consulta:", err);
@@ -511,7 +521,7 @@ app.get('/formeditorden', async (req, res) => {
   }
 
   try {
-    const query = 'SELECT ID_Orden, Fecha, Total, ID_Proveedor FROM Orden_Compra WHERE ID_Orden = ?';
+    const query = 'SELECT ID_Orden, Fecha, Total, Fecha_Entrega, Estado, ID_Proveedor FROM OrdenCompra WHERE ID_Orden = ?';
     db.get(query, [id], (err, row) => {
       if (err) {
         console.error("Error al ejecutar la consulta:", err);
@@ -586,7 +596,7 @@ app.get('/formeditventa', async (req, res) => {
   }
 
   try {
-    const query = 'SELECT ID_Venta, Fecha, Total, Metodo_Pago, ID_Cliente FROM Venta WHERE ID_Venta = ?';
+    const query = 'SELECT ID_Venta, Fecha, Total, Metodo_Pago, Estado, ID_Cliente FROM Venta WHERE ID_Venta = ?';
     db.get(query, [id], (err, row) => {
       if (err) {
         console.error("Error al ejecutar la consulta:", err);
@@ -677,15 +687,15 @@ app.get('/eliminarpromocion', (req, res) => {
 });
 
 app.post('/formulariocliente', (req, res) => {
-  const { nombre, telefono, direccion, fecha_registro } = req.body;
+  const { nombre, telefono, direccion, fecha_registro, Email_Cliente } = req.body;
 
-  if (!nombre || !telefono || !direccion || !fecha_registro) {
+  if (!nombre || !telefono || !direccion || !fecha_registro || !Email_Cliente) {
       return res.status(400).send('Todos los campos son obligatorios.');
   }
 
-  const sql = "INSERT INTO Clientes (Nombre, Telefono, Direccion, Fecha_Registro) VALUES (?, ?, ?, ?)";
+  const sql = "INSERT INTO Clientes (Nombre, Telefono, Direccion, Fecha_Registro, Email_Cliente) VALUES (?, ?, ?, ?, ?)";
 
-  db.run(sql, [nombre, telefono, direccion, fecha_registro], function (err) {
+  db.run(sql, [nombre, telefono, direccion, fecha_registro, Email_Cliente], function (err) {
       if (err) {
           console.error(err.message);
           return res.status(500).send('Error al agregar el cliente.');
@@ -695,15 +705,15 @@ app.post('/formulariocliente', (req, res) => {
 });
 
 app.post('/formulariopro', (req, res) => {
-  const { nombre, stock, precio, categoria, descripcion, id_proveedor } = req.body;
+  const { nombre, stock, precio, categoria, descripcion, Costo, id_proveedor } = req.body;
 
-  if (!nombre || !stock || !precio || !categoria || !descripcion || !id_proveedor) {
+  if (!nombre || !stock || !precio || !categoria || !descripcion || !Costo || !id_proveedor) {
       return res.status(400).send('Todos los campos son obligatorios.');
   }
 
-  const sql = "INSERT INTO Productos (Nombre_Producto, Stock, Precio, Categoria, Descripcion, ID_Proveedor) VALUES (?, ?, ?, ?, ?, ?)";
+  const sql = "INSERT INTO Productos (Nombre_Producto, Stock, Precio, Categoria, Descripcion, Costo, ID_Proveedor) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-  db.run(sql, [nombre, stock, precio, categoria, descripcion, id_proveedor], function (err) {
+  db.run(sql, [nombre, stock, precio, categoria, descripcion, Costo, id_proveedor], function (err) {
       if (err) {
           console.error(err.message);
           return res.status(500).send('Error al agregar el producto.');
@@ -714,21 +724,21 @@ app.post('/formulariopro', (req, res) => {
 
 app.post('/formularioedit/producto/:ID_Producto', (req, res) => {
   const productId = req.params.ID_Producto;
-  const { Nombre_Producto, Categoria, Precio, Stock, Descripcion, ID_Proveedor } = req.body;
+  const { Nombre_Producto, Categoria, Precio, Stock, Descripcion, Costo, ID_Proveedor } = req.body;
 
-  if (!Nombre_Producto || !Categoria || !Precio || !Stock || !Descripcion || !ID_Proveedor) {
+  if (!Nombre_Producto || !Categoria || !Precio || !Stock || !Descripcion || !Costo || !ID_Proveedor) {
     return res.status(400).send('Todos los campos son obligatorios.');
   }
 
   const query = `
     UPDATE Productos
-    SET Nombre_Producto = ?, Categoria = ?, Precio = ?, Stock = ?, Descripcion = ?, ID_Proveedor = ?
+    SET Nombre_Producto = ?, Categoria = ?, Precio = ?, Stock = ?, Descripcion = ?, Costo = ?, ID_Proveedor = ?
     WHERE ID_Producto = ?
   `;
 
   db.run(
     query,
-    [Nombre_Producto, Categoria, Precio, Stock, Descripcion, ID_Proveedor, productId],
+    [Nombre_Producto, Categoria, Precio, Stock, Descripcion, Costo, ID_Proveedor, productId],
     function (err) {
       if (err) {
         console.error("Error al actualizar el producto:", err);
@@ -743,21 +753,21 @@ app.post('/formularioedit/producto/:ID_Producto', (req, res) => {
 
 app.post('/formeditcliente/cliente/:ID_Cliente', (req, res) => {
   const productId = req.params.ID_Cliente;
-  const { Nombre, Telefono, Direccion, Fecha_Registro } = req.body;
+  const { Nombre, Telefono, Direccion, Fecha_Registro, Email_Cliente } = req.body;
 
-  if (!Nombre || !Telefono || !Direccion || !Fecha_Registro) {
+  if (!Nombre || !Telefono || !Direccion || !Fecha_Registro || !Email_Cliente) {
     return res.status(400).send('Todos los campos son obligatorios.');
   }
 
   const query = `
     UPDATE Clientes
-    SET Nombre = ?, Telefono = ?, Direccion = ?, Fecha_Registro = ?
+    SET Nombre = ?, Telefono = ?, Direccion = ?, Fecha_Registro = ?, Email_Cliente = ?
     WHERE ID_Cliente = ?
   `;
 
   db.run(
     query,
-    [Nombre, Telefono, Direccion, Fecha_Registro, productId],
+    [Nombre, Telefono, Direccion, Fecha_Registro, Email_Cliente, productId],
     function (err) {
       if (err) {
         console.error("Error al actualizar el Cliente:", err);
@@ -772,21 +782,21 @@ app.post('/formeditcliente/cliente/:ID_Cliente', (req, res) => {
 
 app.post('/formeditdevolucion/devolucion/:ID_Devolucion', (req, res) => {
   const productId = req.params.ID_Devolucion;
-  const { Fecha, Cantidad_Devuelta, Motivo, ID_Cliente, ID_Producto, ID_Orden } = req.body;
+  const { Fecha, Cantidad, Motivo, ID_Cliente, ID_Producto, ID_Orden } = req.body;
 
-  if (!Fecha || !Cantidad_Devuelta || !Motivo || !ID_Cliente || !ID_Producto || !ID_Orden) {
+  if (!Fecha || !Cantidad || !Motivo || !ID_Cliente || !ID_Producto || !ID_Orden) {
     return res.status(400).send('Todos los campos son obligatorios.');
   }
 
   const query = `
     UPDATE Devolucion
-    SET Fecha = ?, Cantidad_Devuelta = ?, Motivo = ?, ID_Cliente = ?, ID_Producto = ?, ID_Orden = ?
+    SET Fecha = ?, Cantidad = ?, Motivo = ?, ID_Cliente = ?, ID_Producto = ?, ID_Orden = ?
     WHERE ID_Devolucion = ?
   `;
 
   db.run(
     query,
-    [Fecha, Cantidad_Devuelta, Motivo, ID_Cliente, ID_Producto, ID_Orden, productId],
+    [Fecha, Cantidad, Motivo, ID_Cliente, ID_Producto, ID_Orden, productId],
     function (err) {
       if (err) {
         console.error("Error al actualizar la devolucion:", err);
@@ -801,21 +811,21 @@ app.post('/formeditdevolucion/devolucion/:ID_Devolucion', (req, res) => {
 
 app.post('/formeditorden/orden/:ID_Orden', (req, res) => {
   const productId = req.params.ID_Orden;
-  const { Fecha, Total, ID_Proveedor } = req.body;
+  const { Fecha, Total, Fecha_Entrega, Estado, ID_Proveedor } = req.body;
 
-  if (!Fecha || !Total || !ID_Proveedor) {
+  if (!Fecha || !Total || !Estado || !ID_Proveedor) {
     return res.status(400).send('Todos los campos son obligatorios.');
   }
 
   const query = `
-    UPDATE Orden_Compra
-    SET Fecha = ?, Total = ?, ID_Proveedor = ?
+    UPDATE OrdenCompra
+    SET Fecha = ?, Total = ?, Fecha_Entrega = ?, Estado = ?, ID_Proveedor = ?
     WHERE ID_Orden = ?
   `;
 
   db.run(
     query,
-    [ Fecha, Total, ID_Proveedor, productId],
+    [Fecha, Total, Fecha_Entrega, Estado, ID_Proveedor, productId],
     function (err) {
       if (err) {
         console.error("Error al actualizar la orden:", err);
@@ -888,21 +898,21 @@ app.post('/formeditproveedor/proveedor/:ID_Proveedor', (req, res) => {
 
 app.post('/formeditventa/venta/:ID_Venta', (req, res) => {
   const productId = req.params.ID_Venta;
-  const { Fecha, Total, Metodo_Pago, ID_Cliente } = req.body;
+  const { Fecha, Total, Metodo_Pago, Estado, ID_Cliente } = req.body;
 
-  if (!Fecha || !Total || !Metodo_Pago || !ID_Cliente) {
+  if (!Fecha || !Total || !Metodo_Pago || !Estado || !ID_Cliente) {
     return res.status(400).send('Todos los campos son obligatorios.');
   }
 
   const query = `
     UPDATE Venta
-    SET Fecha = ?, Total = ?, Metodo_Pago = ?, ID_Cliente = ?
+    SET Fecha = ?, Total = ?, Metodo_Pago = ?, Estado = ?, ID_Cliente = ?
     WHERE ID_Venta = ?
   `;
 
   db.run(
     query,
-    [Fecha, Total, Metodo_Pago, ID_Cliente, productId],
+    [Fecha, Total, Metodo_Pago, Estado, ID_Cliente, productId],
     function (err) {
       if (err) {
         console.error("Error al actualizar el Venta:", err);
@@ -982,7 +992,7 @@ app.post('/eliminarorden', (req, res) => {
     return res.status(400).send('ID de la Orden no proporcionado');
   }
 
-  const query = 'DELETE FROM Orden_Compra WHERE ID_Orden = ?'; // Asegúrate de que el nombre de la tabla y columna coincidan
+  const query = 'DELETE FROM OrdenCompra WHERE ID_Orden = ?'; // Asegúrate de que el nombre de la tabla y columna coincidan
 
   db.run(query, [productoId], function (err) {
     if (err) {
@@ -1048,20 +1058,20 @@ app.post('/Adminprod', async (req, res) => {
 });
 
 app.post('/formventa', (req, res) => {
-  const { fecha, total, metodo_pago, id_cliente } = req.body;
+  const { fecha, total, metodo_pago, Estado, id_cliente } = req.body;
 
   // Validar que los campos obligatorios están presentes
-  if (!fecha || !total || !metodo_pago) {
-    return res.status(400).send('Fecha, total y metodo de pago son obligatorios.');
+  if (!fecha || !total || !Estado || !metodo_pago) {
+    return res.status(400).send('Fecha, total, estado y metodo de pago son obligatorios.');
   }
 
   // Insertar la devolución en la base de datos
   const sql = `
-    INSERT INTO Venta (Fecha, Total, Metodo_Pago, ID_Cliente)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO Venta (Fecha, Total, Metodo_Pago, Estado, ID_Cliente)
+    VALUES (?, ?, ?, ?, ?)
   `;
 
-  db.run(sql, [fecha, total, metodo_pago, id_cliente || null], function (err) {
+  db.run(sql, [fecha, total, metodo_pago, Estado, id_cliente || null], function (err) {
     if (err) {
       console.error('Error al agregar la venta:', err.message);
       return res.status(500).send('Error al procesar la venta.');
@@ -1073,20 +1083,20 @@ app.post('/formventa', (req, res) => {
 });
 
 app.post('/formorden', (req, res) => {
-  const { fecha, total, id_proveedor } = req.body;
+  const { fecha, total, Fecha_Entrega, Estado, id_proveedor } = req.body;
 
   // Validar que los campos obligatorios están presentes
-  if (!fecha || !total ) {
-    return res.status(400).send('Fecha y Total son obligatorios.');
+  if (!fecha || !total || !Estado || !id_proveedor) {
+    return res.status(400).send('Campos obligatorios.');
   }
 
   // Insertar la devolución en la base de datos
   const sql = `
-    INSERT INTO Orden_Compra (Fecha, Total, ID_Proveedor)
-    VALUES (?, ?, ?)
+    INSERT INTO OrdenCompra (Fecha, Total, Fecha_Entrega, Estado, ID_Proveedor)
+    VALUES (?, ?, ?, ?, ?)
   `;
 
-  db.run(sql, [fecha, total, id_proveedor || null], function (err) {
+  db.run(sql, [fecha, total, Fecha_Entrega, Estado, id_proveedor || null], function (err) {
     if (err) {
       console.error('Error al agregar la orden:', err.message);
       return res.status(500).send('Error al procesar la orden.');
@@ -1123,20 +1133,20 @@ app.post('/formpromocion', (req, res) => {
 });
 
 app.post('/formdevolucion', (req, res) => {
-  const { fecha, cantidad_devuelta, motivo, id_cliente, id_producto, id_orden } = req.body;
+  const { fecha, cantidad, motivo, id_cliente, id_producto, id_orden } = req.body;
 
   // Validar que los campos obligatorios están presentes
-  if (!fecha || !cantidad_devuelta || !motivo) {
+  if (!fecha || !cantidad || !motivo) {
     return res.status(400).send('Fecha, cantidad devuelta y motivo son campos obligatorios.');
   }
 
   // Insertar la devolución en la base de datos
   const sql = `
-    INSERT INTO Devolucion (Fecha, Cantidad_Devuelta, Motivo, ID_Cliente, ID_Producto, ID_Orden)
+    INSERT INTO Devolucion (Fecha, Cantidad, Motivo, ID_Cliente, ID_Producto, ID_Orden)
     VALUES (?, ?, ?, ?, ?, ?)
   `;
 
-  db.run(sql, [fecha, cantidad_devuelta, motivo, id_cliente || null, id_producto || null, id_orden || null], function (err) {
+  db.run(sql, [fecha, cantidad, motivo, id_cliente || null, id_producto || null, id_orden || null], function (err) {
     if (err) {
       console.error('Error al agregar la devolución:', err.message);
       return res.status(500).send('Error al procesar la devolución.');
@@ -1165,8 +1175,8 @@ app.post('/formproveedor', (req, res) => {
   });
 });
 
-// Ruta para manejar las consultas
 app.post('/consultas', (req, res) => {
+  console.log(req.body);
   const consultaSeleccionada = req.body.consulta;
 
   // Mapear opciones a consultas SQL
@@ -1184,18 +1194,18 @@ app.post('/consultas', (req, res) => {
       SELECT c.Nombre, v.ID_Venta, v.Total
       FROM Venta v
       JOIN Clientes c ON v.ID_Cliente = c.ID_Cliente
-      WHERE v.Total > 35.00;
+      WHERE v.Total > 50000;
     `,
     consulta3: `
       SELECT p.Nombre_Proveedor, AVG(JULIANDAY(oc.Fecha_Entrega) - JULIANDAY(oc.Fecha)) AS Promedio_Dias_Entrega
-      FROM Orden_Compra oc
+      FROM OrdenCompra oc
       JOIN Proveedor p ON oc.ID_Proveedor = p.ID_Proveedor
       WHERE oc.Fecha_Entrega IS NOT NULL
       GROUP BY p.Nombre_Proveedor;
     `,
     consulta4: `
       SELECT oc.ID_Orden, p.Nombre_Proveedor, oc.Fecha, oc.Total
-      FROM Orden_Compra oc
+      FROM OrdenCompra oc
       JOIN Proveedor p ON oc.ID_Proveedor = p.ID_Proveedor
       WHERE oc.Estado = 'Pendiente';
     `,
@@ -1207,9 +1217,10 @@ app.post('/consultas', (req, res) => {
     `,
     consulta6: `
       SELECT p.Nombre_Proveedor, COUNT(oc.ID_Orden) AS Entregas_Tardias
-      FROM Orden_Compra oc
+      FROM OrdenCompra oc
       JOIN Proveedor p ON oc.ID_Proveedor = p.ID_Proveedor
-      WHERE oc.Fecha_Entrega > oc.Fecha
+      WHERE  oc.Fecha_Entrega IS NOT NULL
+        AND oc.Fecha_Entrega > DATE(oc.Fecha, '+14 days')
         AND oc.Fecha >= DATE('now', '-1 year')
       GROUP BY p.Nombre_Proveedor;
     `,
@@ -1259,12 +1270,13 @@ app.post('/consultas', (req, res) => {
   // Ejecutar la consulta en SQLite
   db.all(query, [], (err, rows) => {
     if (err) {
-      return res.status(500).json({ error: err.message });
+        console.error(err.message);
+        return res.status(500).render('consultas', { error: 'Error ejecutando la consulta.' });
     }
 
-    // Renderizar la vista con los resultados
+    // Enviar resultados a la vista
     res.render('consultas', { resultados: rows });
-  });
+});
 });
 
 app.listen(3001, () => console.log('Servidor encendido en el puerto 3000'));

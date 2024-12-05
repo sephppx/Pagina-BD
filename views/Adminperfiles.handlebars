@@ -103,6 +103,7 @@
                             <th>Telefono</th>
                             <th>Direccion</th>
                             <th>Fecha de Registro</th>
+                            <th>Email</th>
                         </thead>
                         <tbody>
                             {{#each productos}}
@@ -112,6 +113,7 @@
                                     <td>{{this.Telefono}}</td>
                                     <td>{{this.Direccion}}</td>
                                     <td>{{this.Fecha_Registro}}</td>
+                                    <td>{{this.Email_Cliente}}</td>
                                     <td><a href="/formeditcliente?ID_Cliente={{ID_Cliente}}"><button class="estatus pendiente">Editar</button></a></td>
                                     <td><a href="/eliminarcliente?ID_Cliente={{ID_Cliente}}"><button class="estatus devuelto">Eliminar</button></a></td>
                                 </tr>

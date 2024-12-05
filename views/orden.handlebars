@@ -101,6 +101,8 @@
                             <th>ID Orden</th>
                             <th>Fecha</th>
                             <th>Total</th>
+                            <th>Fecha de entrega</th>
+                            <th>Estado</th>
                             <th>ID Proveedor</th>
                             
                         </thead>
@@ -110,6 +112,8 @@
                                     <td>{{this.ID_Orden}}</td>
                                     <td>{{this.Fecha}}</td>
                                     <td>${{this.Total}}</td>
+                                    <td>{{this.Fecha_Entrega}}</td>
+                                    <td>{{this.Estado}}</td>
                                     <td>{{this.ID_Proveedor}}</td>
                                     <td><a href="/formeditorden?ID_Orden={{ID_Orden}}"><button class="estatus pendiente">Editar</button></a></td>
                                     <td><a href="/eliminarorden?ID_Orden={{ID_Orden}}"><button class="estatus devuelto">Eliminar</button></a></td>
