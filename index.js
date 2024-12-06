@@ -1196,7 +1196,7 @@ app.post('/consultas', (req, res) => {
       SELECT c.Nombre, v.ID_Venta, v.Total
       FROM Venta v
       JOIN Clientes c ON v.ID_Cliente = c.ID_Cliente
-      WHERE v.Total > ?;
+      WHERE v.Total >= ?;
     `,
     consulta3: `
       SELECT p.Nombre_Proveedor, AVG(JULIANDAY(oc.Fecha_Entrega) - JULIANDAY(oc.Fecha)) AS Promedio_Dias_Entrega
@@ -1227,7 +1227,7 @@ app.post('/consultas', (req, res) => {
       GROUP BY p.Nombre_Proveedor;
     `,
     consulta7: `
-      SELECT v.ID_Venta, v.Fecha, v.Total, vp.ID_Producto, p.Nombre_Producto, vp.Cantidad
+      SELECT v.ID_Venta, v.Fecha, v.Total AS Total_Venta, vp.ID_Producto, p.Nombre_Producto, vp.Cantidad
       FROM Venta v
       JOIN Venta_Producto vp ON v.ID_Venta = vp.ID_Venta
       JOIN Productos p ON vp.ID_Producto = p.ID_Producto

@@ -11,12 +11,7 @@
             <div class="nav">
 
                 <ul>
-                    <li>
-                        <a href="/">
-                            <span class="icono"><ion-icon name="aperture-outline"></ion-icon></span>
-                            <span class="titulo">Aura's</span>
-                        </a>
-                    </li>
+                    
                     <li>
                         <a href="/">
                             <span class="icono"><ion-icon name="home-outline"></ion-icon></span>
@@ -124,25 +119,12 @@
                                     <input class="consulta-barra" type="number" id="id_cliente" name="id_cliente" placeholder="Ingrese el ID del cliente">
                                 </div>
                                 
-                                </div>
-
-                                <div id="campo-monto" style="display: none;">
-                                    <label for="monto">Monto Específico:</label>
-                                    <input class="consulta-barra" type="number" id="monto" name="monto" placeholder="Ingrese el monto">
-                                </div>
-
-                                 <div id="campo-cliente" style="display: none;">
-                                    <label for="id_cliente">ID del Cliente:</label>
-                                    <input class="consulta-barra" type="number" id="id_cliente" name="id_cliente" placeholder="Ingrese el ID del cliente">
-                                </div>
-
-                                <!-- Botón para ejecutar la consulta -->
                                 <div class="botones-container">
                                     <button type="submit" class="boton-si" id="accionarConsulta">Consultar</button>
                                 </div>
                                 </form>
 
-                                <!-- Área para mostrar el resultado -->
+                                
                                 <div class="resultado">
                                 <div id="resultados">
                                     {{#if resultados}}
@@ -179,12 +161,12 @@
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         <script>
-            // Agregar funcionalidad para accionar consultas
+            
             document.getElementById('accionar-consultas').addEventListener('click', function() {
                 const consultas = Array.from(document.querySelectorAll('.consulta-lista input')).map(input => input.value);
                 const resultadoDiv = document.getElementById('resultado-consultas');
 
-                // Simular un resultado basado en las consultas ingresadas
+                
                 resultadoDiv.innerHTML = '<ul>' + consultas.map(consulta => `<li>${consulta}</li>`).join('') + '</ul>';
             });
         </script>

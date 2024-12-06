@@ -9,7 +9,7 @@ const db = new sqlite3.Database('./database.sqlite', (err) => {
     }
 });
 
-// Crear una tabla de ejemplo (si no existe)
+// Creacion de las tablas 
 db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS Clientes (
         ID_Cliente INTEGER PRIMARY KEY AUTOINCREMENT,
