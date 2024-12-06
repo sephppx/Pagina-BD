@@ -1178,6 +1178,8 @@ app.post('/formproveedor', (req, res) => {
 app.post('/consultas', (req, res) => {
   console.log(req.body);
   const consultaSeleccionada = req.body.consulta;
+  const monto = parseFloat(req.body.monto);
+  const idCliente = req.body.id_cliente;
 
   // Mapear opciones a consultas SQL
   const consultas = {
@@ -1194,7 +1196,7 @@ app.post('/consultas', (req, res) => {
       SELECT c.Nombre, v.ID_Venta, v.Total
       FROM Venta v
       JOIN Clientes c ON v.ID_Cliente = c.ID_Cliente
-      WHERE v.Total > 50000;
+      WHERE v.Total > ?;
     `,
     consulta3: `
       SELECT p.Nombre_Proveedor, AVG(JULIANDAY(oc.Fecha_Entrega) - JULIANDAY(oc.Fecha)) AS Promedio_Dias_Entrega
@@ -1229,7 +1231,7 @@ app.post('/consultas', (req, res) => {
       FROM Venta v
       JOIN Venta_Producto vp ON v.ID_Venta = vp.ID_Venta
       JOIN Productos p ON vp.ID_Producto = p.ID_Producto
-      WHERE v.ID_Cliente = 2
+      WHERE v.ID_Cliente = ?
       ORDER BY v.Fecha DESC;
     `,
     consulta8: `
@@ -1267,15 +1269,22 @@ app.post('/consultas', (req, res) => {
     return res.status(400).send('Consulta no válida.');
   }
 
-  // Ejecutar la consulta en SQLite
-  db.all(query, [], (err, rows) => {
+  let params = [];
+  if (consultaSeleccionada === 'consulta2'){
+    params = [monto];
+  } else if (consultaSeleccionada === 'consulta7') {
+    params = [idCliente];
+  }
+ 
+  db.all(query, params, (err, rows) => {
     if (err) {
-        console.error(err.message);
-        return res.status(500).render('consultas', { error: 'Error ejecutando la consulta.' });
+      console.error(err.message);
+      return res.status(500).render('consultas', { error: 'Error ejecutando la consulta.' });
     }
 
-    // Enviar resultados a la vista
-    res.render('consultas', { resultados: rows });
+  
+  res.render('consultas', { resultados: rows });
+
 });
 });
 
